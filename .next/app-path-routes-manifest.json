@@ -3,7 +3,7 @@
   "/query/route": "/query",
   "/seed/route": "/seed",
   "/page": "/",
-  "/dashboard/invoices/page": "/dashboard/invoices",
   "/dashboard/customers/page": "/dashboard/customers",
+  "/dashboard/invoices/page": "/dashboard/invoices",
   "/dashboard/(overview)/page": "/dashboard"
 }

@@ -1,7 +1,7 @@
 {
   "version": 4,
   "routes": {
-    "/dashboard/invoices": {
+    "/": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -14,8 +14,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/dashboard/invoices",
-      "dataRoute": "/dashboard/invoices.rsc",
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -48,37 +48,13 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
-    },
-    "/": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/",
-      "dataRoute": "/index.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "899730fb1a43e73c630290ac8e705d09",
-    "previewModeSigningKey": "dd0b282c06b69234a725d72ba508c9c3788398857b9dac93054ebad4cf3c3b2c",
-    "previewModeEncryptionKey": "a85c2fa52046c4ab2953f2b8374af63b46bd3dad8c9cc739f33e429e4f18df5f"
+    "previewModeId": "36cc8e8d903ec167e4525184f553e857",
+    "previewModeSigningKey": "cc5e1449b77d9ab7dc62263d749853759f9f0d45d8a5160b630f22416f473d6c",
+    "previewModeEncryptionKey": "13463ba4a1d779347f6d20774488c7c806273a3748fb2c792e0367659ed312fe"
   }
 }
