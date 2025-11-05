@@ -14,7 +14,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const password = credentials?.password as string;
         // 动态导入 Node-only 依赖，避免被 Edge Runtime 打包
         const { default: postgres } = await import('postgres');
-        const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+        const sql = postgres(process.env.POSTGRES_URL!, {
+          ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+        });
 
         const rows = await sql<{
           id: string;
