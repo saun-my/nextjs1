@@ -13,7 +13,32 @@
     }
   ],
   "headers": [],
-  "dynamicRoutes": [],
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/learn/courses/[id]",
+      "regex": "^/learn/courses/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/learn/courses/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/learn/lessons/[id]",
+      "regex": "^/learn/lessons/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/learn/lessons/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
   "staticRoutes": [
     {
       "page": "/",
@@ -44,6 +69,42 @@
       "regex": "^/dashboard/invoices(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/dashboard/invoices(?:/)?$"
+    },
+    {
+      "page": "/learn",
+      "regex": "^/learn(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/learn(?:/)?$"
+    },
+    {
+      "page": "/learn/courses",
+      "regex": "^/learn/courses(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/learn/courses(?:/)?$"
+    },
+    {
+      "page": "/learn/nav",
+      "regex": "^/learn/nav(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/learn/nav(?:/)?$"
+    },
+    {
+      "page": "/learn/practice",
+      "regex": "^/learn/practice(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/learn/practice(?:/)?$"
+    },
+    {
+      "page": "/learn/progress",
+      "regex": "^/learn/progress(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/learn/progress(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
     },
     {
       "page": "/query",

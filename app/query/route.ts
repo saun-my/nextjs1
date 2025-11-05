@@ -24,3 +24,17 @@ export async function GET() {
   	return Response.json({ error }, { status: 500 });
   }
 }
+
+async function makeVip(userEmail: string) {
+  await sql`
+    UPDATE users SET is_vip = TRUE WHERE email = ${userEmail}
+  `;
+  await sql`
+    INSERT INTO user_roles (user_id, role_id)
+    VALUES (
+      (SELECT id FROM users WHERE email=${userEmail}),
+      (SELECT id FROM roles WHERE name='vip')
+    )
+    ON CONFLICT DO NOTHING
+  `;
+}
