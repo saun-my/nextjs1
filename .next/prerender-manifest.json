@@ -1,30 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/dashboard/customers": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/dashboard/customers",
-      "dataRoute": "/dashboard/customers.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -72,13 +48,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/dashboard/customers": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/dashboard/customers",
+      "dataRoute": "/dashboard/customers.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "e55c480705d47d9de04146dfb465c5d0",
-    "previewModeSigningKey": "a903bb33b7ec620fcde5870c5d23911fcca25c6020e5a668f13469326aa25dfc",
-    "previewModeEncryptionKey": "f36f6dc35d068cc43c830c9064fbb2598180cc2bba3ef6d008fba141bd8deea8"
+    "previewModeId": "11d89fe905bff3060c2e0165b51a7857",
+    "previewModeSigningKey": "6e40c527525dcaf5a9d12398323922f3ef888a7c89748e9c8dc13e869c89d9c1",
+    "previewModeEncryptionKey": "b847f36dfc0061a126f63d4f275c6ad857e5096f73f9237fae58f20997fa2c82"
   }
 }

@@ -1,14 +1,15 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
 export const dynamic = 'force-dynamic';
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo') || '/dashboard';
+  const router = useRouter();
+  const redirectTo = searchParams.get('redirectTo') || '/learn';
   const [email, setEmail] = useState('user@nextmail.com');
   const [password, setPassword] = useState('123456');
   const [error, setError] = useState<string | null>(null);
@@ -18,13 +19,20 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     const res = await signIn('credentials', {
       email,
       password,
       callbackUrl: redirectTo,
-      redirect: true,
+      redirect: false,
     });
-    if ((res as any)?.error) setError((res as any).error);
+
+    if (res?.ok) {
+      router.push(res.url ?? redirectTo);
+    } else {
+      setError('账号或密码不正确，请检查邮箱和密码。');
+    }
+
     setLoading(false);
   }
 

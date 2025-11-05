@@ -9,10 +9,10 @@
   "/learn/courses/page": "app/learn/courses/page.js",
   "/learn/lessons/[id]/page": "app/learn/lessons/[id]/page.js",
   "/learn/courses/[id]/page": "app/learn/courses/[id]/page.js",
-  "/dashboard/(overview)/page": "app/dashboard/(overview)/page.js",
-  "/dashboard/invoices/page": "app/dashboard/invoices/page.js",
-  "/learn/page": "app/learn/page.js",
   "/learn/nav/page": "app/learn/nav/page.js",
   "/learn/practice/page": "app/learn/practice/page.js",
-  "/learn/progress/page": "app/learn/progress/page.js"
+  "/dashboard/(overview)/page": "app/dashboard/(overview)/page.js",
+  "/dashboard/invoices/page": "app/dashboard/invoices/page.js",
+  "/learn/progress/page": "app/learn/progress/page.js",
+  "/learn/page": "app/learn/page.js"
 }

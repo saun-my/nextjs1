@@ -53,6 +53,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       },
     }),
   ],
+  secret: process.env.AUTH_SECRET,
   session: { strategy: 'jwt' },
   callbacks: {
     async jwt({ token, user }) {

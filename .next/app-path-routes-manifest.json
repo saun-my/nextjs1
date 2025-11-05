@@ -9,10 +9,10 @@
   "/learn/courses/page": "/learn/courses",
   "/learn/lessons/[id]/page": "/learn/lessons/[id]",
   "/learn/courses/[id]/page": "/learn/courses/[id]",
-  "/dashboard/(overview)/page": "/dashboard",
-  "/dashboard/invoices/page": "/dashboard/invoices",
-  "/learn/page": "/learn",
   "/learn/nav/page": "/learn/nav",
   "/learn/practice/page": "/learn/practice",
-  "/learn/progress/page": "/learn/progress"
+  "/dashboard/(overview)/page": "/dashboard",
+  "/dashboard/invoices/page": "/dashboard/invoices",
+  "/learn/progress/page": "/learn/progress",
+  "/learn/page": "/learn"
 }
