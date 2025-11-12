@@ -413,12 +413,24 @@ export function SmartInsightWidget({
                         </div>
                       </div>
 
-                      {insight.recommendation && (
+                      {insight.recommendations?.length > 0 && (
                         <div className="bg-white rounded-lg p-3 border border-gray-200">
-                          <div className="text-xs font-medium text-gray-700 mb-1">建议</div>
-                          <p className="text-sm text-gray-600">
-                            {insight.recommendation}
-                          </p>
+                          <div className="text-xs font-medium text-gray-700 mb-2">建议</div>
+                          <ul className="space-y-2">
+                            {insight.recommendations.map((rec) => (
+                              <li key={rec.id} className="flex items-start justify-between gap-2">
+                                <div className="text-sm text-gray-600">{rec.text}</div>
+                                <span
+                                  className={cn(
+                                    "px-2 py-0.5 rounded-full text-xs font-medium",
+                                    getPriorityBadgeColor(rec.priority)
+                                  )}
+                                >
+                                  {rec.priority === 'high' ? '高优' : rec.priority === 'medium' ? '中优' : '低优'}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       )}
                     </div>
@@ -427,7 +439,7 @@ export function SmartInsightWidget({
               );
             })}
           </div>
-        )};
+        )}
       </div>
 
       {/* 统计信息 */}
