@@ -12,7 +12,8 @@ import { cn } from '@/app/lib/utils';
 import { 
   generateChartData, 
   generateMetricData, 
-  generateTableData
+  generateTableData,
+  generateSmartInsights
 } from '@/app/lib/dashboard/data-generator';
 
 interface ModularDashboardBuilderProps {
