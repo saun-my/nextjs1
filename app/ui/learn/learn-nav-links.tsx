@@ -5,6 +5,11 @@ import {
   BookOpenIcon,
   BoltIcon,
   ChartBarIcon,
+  SparklesIcon,
+  ChartPieIcon,
+  CogIcon,
+  AcademicCapIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,6 +20,11 @@ const links = [
   { name: '课程', href: '/learn/courses', icon: BookOpenIcon },
   { name: '练习', href: '/learn/practice', icon: BoltIcon },
   { name: '进度', href: '/learn/progress', icon: ChartBarIcon },
+  { name: '智能路径', href: '/learn/smart-path', icon: SparklesIcon },
+  { name: '交互学习', href: '/learn/interactive', icon: AcademicCapIcon },
+  { name: '协作学习', href: '/learn/collaborate', icon: UserGroupIcon },
+  { name: 'AI洞察', href: '/learn/ai-insights', icon: ChartPieIcon },
+  { name: '仪表板', href: '/dashboard/analytics', icon: ChartBarIcon },
 ];
 
 export default function LearnNavLinks() {

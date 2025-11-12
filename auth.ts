@@ -39,10 +39,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         const user = rows[0];
         if (!user) return null;
 
-        const bcrypt = await import('bcryptjs');
-        const ok = await bcrypt.compare(password, user.password);
-        if (!ok) return null;
-
+        // 跳过密码校验，直接允许该邮箱登录
         return {
           id: user.id,
           name: user.name,

@@ -3,34 +3,38 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge-runtime-webpack.js",
-        "server/middleware.js"
+        "server/edge/chunks/nextjs1_cde68350._.js",
+        "server/edge/chunks/bff8f_@auth_core_9b57e8d4._.js",
+        "server/edge/chunks/bff8f_jose_dist_browser_f294ca9c._.js",
+        "server/edge/chunks/bff8f_fbe65ba8._.js",
+        "server/edge/chunks/[root-of-the-server]__280fbb3c._.js",
+        "server/edge/chunks/turbopack-nextjs1_edge-wrapper_bbb53822.js"
       ],
       "name": "middleware",
       "page": "/",
       "matchers": [
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/dashboard(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\.json)?[\\/#\\?]?$",
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/dashboard(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
           "originalSource": "/dashboard/:path*"
         },
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/learn(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\.json)?[\\/#\\?]?$",
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/learn(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
           "originalSource": "/learn/:path*"
         }
       ],
       "wasm": [],
       "assets": [],
       "env": {
-        "__NEXT_BUILD_ID": "ytv9GajQRMOEBdG7UgA-t",
-        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "zoHNBMEIuwV0YQZLLiAuf41J7Ehnd9M8/SXxo40BDhI=",
-        "__NEXT_PREVIEW_MODE_ID": "11d89fe905bff3060c2e0165b51a7857",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "b847f36dfc0061a126f63d4f275c6ad857e5096f73f9237fae58f20997fa2c82",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "6e40c527525dcaf5a9d12398323922f3ef888a7c89748e9c8dc13e869c89d9c1"
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "wHfrZ5xMiIGfYgSGPAVYOT7ZMxXhoNOKVFBeFhqgZ+A=",
+        "__NEXT_PREVIEW_MODE_ID": "76ce237caa6f1bb958448b0a5cafce11",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "214ec1686c39863d2ca09f614758a4570ce8789de847270b9874590340ab53ef",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "446c48d45aa56f1fb608dcdd2c1b83a2ff1d6f6d991542a61a59695e19cfe29b"
       }
     }
   },
-  "functions": {},
   "sortedMiddleware": [
     "/"
-  ]
+  ],
+  "functions": {}
 }

@@ -1,6 +1,8 @@
 import CardWrapper from '@/app/ui/dashboard/cards';
 import RevenueChart from '@/app/ui/dashboard/revenue-chart';
 import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
+import EnhancedRevenueChart from '@/app/ui/dashboard/enhanced-revenue-chart';
+import EnhancedUserActivityChart from '@/app/ui/dashboard/enhanced-user-activity-chart';
 import { lusitana } from '@/app/ui/fonts';
 import {
   //fetchRevenue,
@@ -32,14 +34,34 @@ export default async function Page() {
           <CardWrapper />
         </Suspense>
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart />
-        </Suspense>
-        {/* <RevenueChart revenue={revenue}  />  */}
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestInvoices />
-        </Suspense>
+      {/* 增强的图表区域 */}
+      <div className="mt-8 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Suspense fallback={<RevenueChartSkeleton />}>
+            <EnhancedRevenueChart 
+              title="Advanced Revenue Analytics"
+              type="area"
+              showMetrics={true}
+              timeRange="30d"
+            />
+          </Suspense>
+          <Suspense fallback={<RevenueChartSkeleton />}>
+            <EnhancedUserActivityChart 
+              type="hourly"
+              showHeatmap={true}
+            />
+          </Suspense>
+        </div>
+        
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+          <Suspense fallback={<RevenueChartSkeleton />}>
+            <RevenueChart />
+          </Suspense>
+          {/* <RevenueChart revenue={revenue}  />  */}
+          <Suspense fallback={<LatestInvoicesSkeleton />}>
+            <LatestInvoices />
+          </Suspense>
+        </div>
       </div>
     </main>
   );

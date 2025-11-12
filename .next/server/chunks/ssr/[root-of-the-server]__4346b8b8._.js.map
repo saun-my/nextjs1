@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 19, "column": 0}, "map": {"version":3,"sources":["file:///Users/saunmy/Desktop/nextjs1/nextjs1/app/learn/progress/page.tsx"],"sourcesContent":["export const dynamic = 'force-dynamic';\n\nexport default async function Page() {\n  return (\n    <div className=\"space-y-4\">\n      <h2 className=\"text-xl font-semibold\">我的进度</h2>\n      <p className=\"text-gray-700\">显示已完成课节与测验成绩（当前为占位）。</p>\n      <div className=\"rounded-xl bg-gray-50 p-4\">\n        <div className=\"h-24 rounded bg-white\" />\n        <p className=\"mt-2 text-sm text-gray-600\">占位内容</p>\n      </div>\n    </div>\n  );\n}"],"names":[],"mappings":";;;;;;;;AAAO,MAAM,UAAU;AAER,eAAe;IAC5B,qBACE,yPAAC;QAAI,WAAU;;0BACb,yPAAC;gBAAG,WAAU;0BAAwB;;;;;;0BACtC,yPAAC;gBAAE,WAAU;0BAAgB;;;;;;0BAC7B,yPAAC;gBAAI,WAAU;;kCACb,yPAAC;wBAAI,WAAU;;;;;;kCACf,yPAAC;wBAAE,WAAU;kCAA6B;;;;;;;;;;;;;;;;;;AAIlD","debugId":null}}]
+}

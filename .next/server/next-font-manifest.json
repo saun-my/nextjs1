@@ -1,1 +1,47 @@
-{"pages":{},"app":{"/Users/saunmy/Desktop/nextjs1/nextjs1/app/layout":["static/media/e4af272ccee01ff0-s.p.woff2","static/media/a50f9a2c50b5a675-s.p.woff2","static/media/3e5cf33211ef6d1b-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}
+{
+  "app": {
+    "[project]/nextjs1/app/_not-found/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/ai-insights/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/collaborate/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/interactive/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/progress/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/learn/smart-path/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

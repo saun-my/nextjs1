@@ -28,7 +28,10 @@ function LoginForm() {
     });
 
     if (res?.ok) {
-      router.push(res.url ?? redirectTo);
+      // router.push(res.url ?? redirectTo);
+            // 登录成功后，跳转并强制刷新，确保服务端读取最新 Cookie/会话
+      router.replace(redirectTo);
+      router.refresh();
     } else {
       setError('账号或密码不正确，请检查邮箱和密码。');
     }

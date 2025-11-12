@@ -1,1 +1,5 @@
-{"node":{"0087baa34c32a0bb41180b2fdf99a2969bb23a6852":{"workers":{"app/dashboard/customers/page":{"moduleId":"7410","async":false},"app/dashboard/(overview)/page":{"moduleId":"7410","async":false},"app/dashboard/invoices/page":{"moduleId":"7410","async":false}},"layer":{"app/dashboard/customers/page":"rsc","app/dashboard/(overview)/page":"rsc","app/dashboard/invoices/page":"rsc"}}},"edge":{},"encryptionKey":"zoHNBMEIuwV0YQZLLiAuf41J7Ehnd9M8/SXxo40BDhI="}
+{
+  "node": {},
+  "edge": {},
+  "encryptionKey": "wHfrZ5xMiIGfYgSGPAVYOT7ZMxXhoNOKVFBeFhqgZ+A="
+}
