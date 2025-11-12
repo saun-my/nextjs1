@@ -193,12 +193,12 @@ export default function InteractiveLessonPage({
             <p className="text-gray-600 mb-6">你已经成功完成了 "{lesson.title}" 课程</p>
             
             <div className="bg-blue-50 rounded-lg p-4 mb-6">
-              <div className="text-3xl font-bold text-blue-600 mb-1">{Math.round(totalScore / lesson.interactive_elements.length)}%</div>
+              <div className="text-3xl font-bold text-blue-600 mb-1">{Math.round(totalScore / elements.length)}%</div>
               <div className="text-sm text-blue-800">总体得分</div>
             </div>
             
             <div className="space-y-3 mb-6">
-              {lesson.interactive_elements.map((element, index) => (
+              {elements.map((element, index) => (
                 <div key={element.id} className="flex items-center justify-between text-sm">
                   <span className="text-gray-700">{element.title}</span>
                   <span className={`font-medium ${
@@ -344,17 +344,17 @@ export default function InteractiveLessonPage({
               
               <div className="text-sm text-gray-500 flex items-center">
                 {completedElements.has(currentElementIndex) && 
-                 currentElementIndex < lesson.interactive_elements.length - 1 && (
+                 currentElementIndex < elements.length - 1 && (
                   <span className="text-green-600 mr-2">✅ 已完成</span>
                 )}
-                步骤 {currentElementIndex + 1} / {lesson.interactive_elements.length}
+                步骤 {currentElementIndex + 1} / {elements.length}
               </div>
               
               <button
                 onClick={() => handleElementNavigation(
-                  Math.min(lesson.interactive_elements.length - 1, currentElementIndex + 1)
+                  Math.min(elements.length - 1, currentElementIndex + 1)
                 )}
-                disabled={currentElementIndex === lesson.interactive_elements.length - 1}
+                disabled={currentElementIndex === elements.length - 1}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 下一步

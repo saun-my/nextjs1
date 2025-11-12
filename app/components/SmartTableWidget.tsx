@@ -41,9 +41,8 @@ export function SmartTableWidget({
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data.rows;
-    
     return data.rows.filter(row => {
-      return Object.values(row).some(value => 
+      return Object.values(row.data || {}).some(value =>
         String(value).toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
@@ -51,14 +50,16 @@ export function SmartTableWidget({
 
   const sortedData = useMemo(() => {
     if (!sortField) return filteredData;
-    
     return [...filteredData].sort((a, b) => {
-      const aValue = a[sortField];
-      const bValue = b[sortField];
-      
-      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
-      return 0;
+      const aVal = a.data?.[sortField];
+      const bVal = b.data?.[sortField];
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
+      }
+      const aStr = String(aVal ?? '');
+      const bStr = String(bVal ?? '');
+      const cmp = aStr.localeCompare(bStr, 'zh-CN');
+      return sortOrder === 'asc' ? cmp : -cmp;
     });
   }, [filteredData, sortField, sortOrder]);
 
@@ -104,8 +105,8 @@ export function SmartTableWidget({
       
       case 'csv':
         const csvHeaders = data.headers.map(h => h.label).join(',');
-        const csvRows = sortedData.map(row => 
-          data.headers.map(header => `"${String(row[header.key] || '')}"`).join(',')
+        const csvRows = sortedData.map(row =>
+          data.headers.map(header => `"${String(row.data?.[header.key] ?? '')}"`).join(',')
         ).join('\n');
         const csvContent = "data:text/csv;charset=utf-8," + csvHeaders + "\n" + csvRows;
         const csvLink = document.createElement('a');
@@ -130,9 +131,9 @@ export function SmartTableWidget({
     if (selectedRows.size === paginatedData.length) {
       setSelectedRows(new Set());
     } else {
-      setSelectedRows(new Set(paginatedData.map(row => String(row.id || row[data.headers[0]?.key]))));
+      setSelectedRows(new Set(paginatedData.map(row => row.id)));
     }
-  }, [selectedRows, paginatedData, data.headers]);
+  }, [selectedRows, paginatedData]);
 
   if (loading) {
     return (
@@ -317,7 +318,7 @@ export function SmartTableWidget({
                   </button>
                 </th>
               ))}
-              {data.actions && data.actions.length > 0 && (
+              {paginatedData.some(r => r.actions && r.actions.length > 0) && (
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   操作
                 </th>
@@ -333,15 +334,15 @@ export function SmartTableWidget({
               >
                 {data.headers.map((header: TableHeader) => (
                   <td key={header.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {header.render ? header.render(row[header.key], row) : String(row[header.key] || '')}
+                    {String(row.data?.[header.key] ?? '')}
                   </td>
                 ))}
-                {data.actions && data.actions.length > 0 && (
+                {row.actions && row.actions.length > 0 && (
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex items-center gap-2">
-                      {data.actions.map((action: TableAction) => (
+                      {row.actions.map((action: TableAction) => (
                         <button
-                          key={action.id}
+                          key={action.action}
                           onClick={(e) => {
                             e.stopPropagation();
                             onActionClick && onActionClick(action, row);

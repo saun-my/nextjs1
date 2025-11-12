@@ -493,6 +493,7 @@ const englishLessons: Lesson[] = [
     content:
       'Introduction to English alphabet.\nPractice phonetics.\nCommon vowel sounds.',
     duration_min: 20,
+    order_index: 1,
   },
   {
     id: 'lesson-a1-02',
@@ -502,6 +503,7 @@ const englishLessons: Lesson[] = [
     content:
       'Hi, Hello, Good morning.\nHow to introduce yourself with simple sentences.',
     duration_min: 25,
+    order_index: 2,
   },
   {
     id: 'lesson-b1-01',
@@ -511,6 +513,7 @@ const englishLessons: Lesson[] = [
     content:
       'Small talk starters.\nPolite responses and follow-up questions.\nRole-play examples.',
     duration_min: 30,
+    order_index: 1,
   },
 ];
 

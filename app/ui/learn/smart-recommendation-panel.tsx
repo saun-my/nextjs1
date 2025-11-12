@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSmartRecommendations } from '@/app/hooks/useSmartRecommendations';
-import { Recommendation } from '@/app/lib/learning/types';
+import { RecommendationResult } from '@/app/lib/learning/types';
 import { 
   LightBulbIcon, 
   ClockIcon, 
@@ -21,8 +21,8 @@ export default function SmartRecommendationPanel({
   userId = 'demo-user', 
   className = '' 
 }: SmartRecommendationPanelProps) {
-  const { recommendations, isLoading, error, refreshRecommendations } = useSmartRecommendations(userId);
-  const [selectedRecommendation, setSelectedRecommendation] = useState<Recommendation | null>(null);
+  const { recommendations, loading, error, refresh } = useSmartRecommendations({ userId, context: 'home', limit: 6 });
+  const [selectedRecommendation, setSelectedRecommendation] = useState<RecommendationResult | null>(null);
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -50,14 +50,14 @@ export default function SmartRecommendationPanel({
     }
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className={`bg-white rounded-lg shadow-sm border p-6 ${className}`}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">智能推荐</h3>
           <button
-            onClick={refreshRecommendations}
-            disabled={isLoading}
+            onClick={refresh}
+            disabled={loading}
             className="text-sm text-blue-600 hover:text-blue-700 disabled:opacity-50"
           >
             刷新
@@ -81,7 +81,7 @@ export default function SmartRecommendationPanel({
         <div className="text-center">
           <p className="text-red-600 mb-4">{error}</p>
           <button
-            onClick={refreshRecommendations}
+            onClick={refresh}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             重试
@@ -102,7 +102,7 @@ export default function SmartRecommendationPanel({
             </p>
           </div>
           <button
-            onClick={refreshRecommendations}
+            onClick={refresh}
             className="text-sm text-blue-600 hover:text-blue-700"
           >
             刷新
@@ -119,32 +119,31 @@ export default function SmartRecommendationPanel({
           <div className="space-y-4">
             {recommendations.map((recommendation) => (
               <div
-                key={recommendation.id}
+                key={recommendation.course.id}
                 className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer"
                 onClick={() => setSelectedRecommendation(recommendation)}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="text-blue-600">
-                      {getIconForType(recommendation.type)}
+                      {getIconForType('course')}
                     </div>
                     <div>
                       <h4 className="font-medium text-gray-900">
-                        {recommendation.title}
+                        {recommendation.course.title}
                       </h4>
                       <p className="text-sm text-gray-600 mt-1">
-                        {recommendation.description}
+                        {recommendation.course.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(recommendation.priority)}`}>
-                      {recommendation.priority === 'high' ? '高优先级' : 
-                       recommendation.priority === 'medium' ? '中优先级' : '低优先级'}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(recommendation.score >= 80 ? 'high' : recommendation.score >= 60 ? 'medium' : 'low')}`}>
+                      {recommendation.score >= 80 ? '高优先级' : recommendation.score >= 60 ? '中优先级' : '低优先级'}
                     </span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recommendation.difficulty)}`}>
-                      {recommendation.difficulty === 'beginner' ? '初级' :
-                       recommendation.difficulty === 'intermediate' ? '中级' : '高级'}
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recommendation.course.difficulty)}`}>
+                      {recommendation.course.difficulty === 'beginner' ? '初级' :
+                       recommendation.course.difficulty === 'intermediate' ? '中级' : '高级'}
                     </span>
                   </div>
                 </div>
@@ -153,11 +152,11 @@ export default function SmartRecommendationPanel({
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
                       <ClockIcon className="w-4 h-4" />
-                      <span>{recommendation.estimatedTime}小时</span>
+                      <span>{Math.round(recommendation.estimatedCompletionTime / 60)}小时</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <StarIcon className="w-4 h-4" />
-                      <span>评分 {recommendation.score.toFixed(1)}</span>
+                      <span>评分 {Math.round(recommendation.score)}</span>
                     </div>
                   </div>
                   <ArrowRightIcon className="w-4 h-4" />
@@ -169,7 +168,7 @@ export default function SmartRecommendationPanel({
                       {recommendation.reasons.slice(0, 2).map((reason, index) => (
                         <div key={index} className="flex items-center space-x-2 text-xs text-gray-600">
                           <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                          <span>{reason.description}</span>
+                          <span>{reason}</span>
                         </div>
                       ))}
                     </div>
@@ -200,7 +199,7 @@ export default function SmartRecommendationPanel({
                 {selectedRecommendation.reasons.map((reason, index) => (
                   <div key={index} className="flex items-start space-x-2 text-sm">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-600">{reason.description}</span>
+                    <span className="text-gray-600">{reason}</span>
                   </div>
                 ))}
               </div>

@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { ModularDashboardBuilder } from '@/app/components/ModularDashboardBuilder';
+import { useDemoDashboard } from '@/app/hooks/useSmartDashboard';
 
 export default function DashboardBuilderPage() {
   const [showDemo, setShowDemo] = useState(true);
+  const { layout, updateLayout } = useDemoDashboard();
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -63,7 +65,27 @@ export default function DashboardBuilderPage() {
 
         {/* Dashboard Builder */}
         <div className="bg-white rounded-lg shadow-sm border p-6">
-          <ModularDashboardBuilder />
+          {layout ? (
+            <ModularDashboardBuilder
+              layout={layout}
+              widgets={layout.widgets}
+              onLayoutChange={(newLayout) => updateLayout(newLayout)}
+              onWidgetAdd={(widget) => {
+                const current = layout.widgets || [];
+                updateLayout({ ...layout, widgets: [...current, widget] });
+              }}
+              onWidgetRemove={(widgetId) => {
+                const current = layout.widgets || [];
+                updateLayout({ ...layout, widgets: current.filter(w => w.id !== widgetId) });
+              }}
+              onWidgetUpdate={(widgetId, updates) => {
+                const current = layout.widgets || [];
+                updateLayout({ ...layout, widgets: current.map(w => w.id === widgetId ? { ...w, ...updates } : w) });
+              }}
+            />
+          ) : (
+            <div className="text-center text-gray-600">正在加载布局...</div>
+          )}
         </div>
 
         {/* Instructions */}

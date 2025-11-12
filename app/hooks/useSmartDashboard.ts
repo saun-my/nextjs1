@@ -92,9 +92,8 @@ export function useSmartDashboard({
           title: '活跃用户',
           dataSource: 'users',
           config: {
-            format: 'number',
-            showTrend: true,
-            colorScheme: ['#3B82F6']
+            colorScheme: ['#3B82F6'],
+            customStyles: { format: 'number', showTrend: true }
           },
           size: 'small',
           position: { x: 8, y: 0, w: 4, h: 2 },
@@ -106,9 +105,8 @@ export function useSmartDashboard({
           title: '学习参与度',
           dataSource: 'engagement',
           config: {
-            format: 'percentage',
-            showTrend: true,
-            colorScheme: ['#10B981']
+            colorScheme: ['#10B981'],
+            customStyles: { format: 'percentage', showTrend: true }
           },
           size: 'small',
           position: { x: 8, y: 2, w: 4, h: 2 },
@@ -120,9 +118,7 @@ export function useSmartDashboard({
           title: '热门课程',
           dataSource: 'courses',
           config: {
-            showPagination: true,
-            pageSize: 5,
-            enableSorting: true
+            customStyles: { showPagination: true, pageSize: 5, enableSorting: true }
           },
           size: 'medium',
           position: { x: 0, y: 4, w: 6, h: 6 },
@@ -134,8 +130,8 @@ export function useSmartDashboard({
           title: '学习进度',
           dataSource: 'progress',
           config: {
-            showPercentage: true,
-            colorScheme: ['#F59E0B', '#10B981', '#3B82F6']
+            colorScheme: ['#F59E0B', '#10B981', '#3B82F6'],
+            customStyles: { showPercentage: true }
           },
           size: 'medium',
           position: { x: 6, y: 4, w: 6, h: 6 },
@@ -171,7 +167,12 @@ export function useSmartDashboard({
     try {
       switch (widget.type) {
         case 'chart':
-          return generateChartData(widget.config.chartType || 'line');
+          return generateChartData((() => {
+            const ct = widget.config?.chartType;
+            const safeCt: 'line' | 'bar' | 'pie' | 'area' =
+              ct === 'line' || ct === 'bar' || ct === 'pie' || ct === 'area' ? ct : 'line';
+            return safeCt;
+          })());
         
         case 'metric':
           return generateMetricData(widget.dataSource as any);

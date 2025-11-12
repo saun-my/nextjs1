@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { Filter, RefreshCw, SlidersHorizontal } from 'lucide-react';
+import { Filter, RefreshCw, SlidersHorizontal, BookOpen } from 'lucide-react';
 import { useDemoRecommendations } from '@/app/hooks/useSmartRecommendations';
 import { SmartRecommendationCard, SmartRecommendationSkeleton } from './SmartRecommendationCard';
 import { RecommendationFilters } from './RecommendationFilters';

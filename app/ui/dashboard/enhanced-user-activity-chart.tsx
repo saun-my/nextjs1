@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
          Cell, PieChart, Pie, LineChart, Line, Area, AreaChart } from 'recharts';
-import { UsersIcon, ClockIcon, TrendingUpIcon, FireIcon } from '@heroicons/react/24/outline';
+import { UsersIcon, ClockIcon, FireIcon } from '@heroicons/react/24/outline';
 
 interface UserActivityData {
   hour: number;
@@ -228,7 +228,7 @@ export default function EnhancedUserActivityChart({
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
-                      data={demoData}
+                      data={demoData as any}
                       cx="50%"
                       cy="50%"
                       innerRadius={60}

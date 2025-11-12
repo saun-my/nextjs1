@@ -40,6 +40,8 @@ export default function EnhancedRevenueChart({
   const [selectedMetric, setSelectedMetric] = useState<'revenue' | 'users' | 'orders'>('revenue');
   const [animationKey, setAnimationKey] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [range, setRange] = useState<'7d' | '30d' | '90d' | '1y'>(timeRange);
+  const [chartType, setChartType] = useState<'line' | 'area' | 'bar'>(type);
 
   // 生成模拟数据
   const generateMockData = (days: number): DashboardChartData[] => {
@@ -75,13 +77,13 @@ export default function EnhancedRevenueChart({
     
     // 模拟数据加载
     setTimeout(() => {
-      const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : timeRange === '90d' ? 90 : 365;
+      const days = range === '7d' ? 7 : range === '30d' ? 30 : range === '90d' ? 90 : 365;
       const newData = data.length > 0 ? data : generateMockData(days);
       setChartData(newData);
       setAnimationKey(prev => prev + 1);
       setIsLoading(false);
     }, 800);
-  }, [timeRange, data]);
+  }, [range, data]);
 
   // 计算指标数据
   const calculateMetrics = (): MetricData[] => {
@@ -149,7 +151,7 @@ export default function EnhancedRevenueChart({
       margin: { top: 5, right: 30, left: 20, bottom: 5 }
     };
 
-    switch (type) {
+    switch (chartType) {
       case 'line':
         return (
           <LineChart {...commonProps}>
@@ -239,17 +241,17 @@ export default function EnhancedRevenueChart({
             <div className="flex items-center space-x-2">
               {/* 时间范围选择器 */}
               <div className="flex bg-gray-100 rounded-lg p-1">
-                {['7d', '30d', '90d', '1y'].map((range) => (
+                {['7d', '30d', '90d', '1y'].map((rangeOption) => (
                   <button
-                    key={range}
-                    onClick={() => setTimeRange(range as any)}
+                    key={rangeOption}
+                    onClick={() => setRange(rangeOption as any)}
                     className={`px-3 py-1 text-xs rounded-md transition-colors ${
-                      timeRange === range
+                      range === rangeOption
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    {range}
+                    {rangeOption}
                   </button>
                 ))}
               </div>
@@ -259,9 +261,9 @@ export default function EnhancedRevenueChart({
                 {[{type: 'area', icon: '📊'}, {type: 'line', icon: '📈'}, {type: 'bar', icon: '📊'}].map(({type: t, icon}) => (
                   <button
                     key={t}
-                    onClick={() => setType(t as any)}
+                    onClick={() => setChartType(t as any)}
                     className={`px-2 py-1 text-xs rounded-md transition-colors ${
-                      type === t
+                      chartType === t
                         ? 'bg-white text-blue-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}

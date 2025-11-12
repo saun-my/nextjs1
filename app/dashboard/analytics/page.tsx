@@ -7,7 +7,7 @@ import { useDemoDashboard } from '@/app/hooks/useSmartDashboard';
 
 export default function AnalyticsDashboard() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'insights'>('dashboard');
-  const { widgets, isLoading, error, refreshData } = useDemoDashboard();
+  const { layout, data, loading, error, refresh, updateLayout } = useDemoDashboard();
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -72,7 +72,27 @@ export default function AnalyticsDashboard() {
             </div>
 
             {/* Modular Dashboard Builder */}
-            <ModularDashboardBuilder />
+            {layout ? (
+              <ModularDashboardBuilder
+                layout={layout}
+                widgets={layout.widgets}
+                onLayoutChange={(newLayout) => updateLayout(newLayout)}
+                onWidgetAdd={(widget) => {
+                  const current = layout.widgets || [];
+                  updateLayout({ ...layout, widgets: [...current, widget] });
+                }}
+                onWidgetRemove={(widgetId) => {
+                  const current = layout.widgets || [];
+                  updateLayout({ ...layout, widgets: current.filter(w => w.id !== widgetId) });
+                }}
+                onWidgetUpdate={(widgetId, updates) => {
+                  const current = layout.widgets || [];
+                  updateLayout({ ...layout, widgets: current.map(w => w.id === widgetId ? { ...w, ...updates } : w) });
+                }}
+              />
+            ) : (
+              <div className="bg-white rounded-lg shadow-sm border p-6 text-center text-gray-600">正在初始化仪表板...</div>
+            )}
           </div>
         )}
 

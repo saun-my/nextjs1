@@ -27,7 +27,8 @@ export function SmartRecommendationCard({
   className
 }: SmartRecommendationCardProps) {
   const { course, score, reasons, estimatedCompletionTime } = recommendation;
-  const { title, description, difficulty, category, tags, rating, enrolledCount, progress } = course;
+  const { title, description, difficulty, category, tags, rating, enrollmentCount } = course;
+  const progress = (course as any).progress as number | undefined;
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -140,7 +141,7 @@ export function SmartRecommendationCard({
           </div>
           <div className="flex items-center">
             <Users className="h-4 w-4 mr-1" />
-            <span>{enrolledCount}人学习</span>
+            <span>{enrollmentCount}人学习</span>
           </div>
           <div className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />

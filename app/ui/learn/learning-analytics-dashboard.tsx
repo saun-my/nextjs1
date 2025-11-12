@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, 
          Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { BookOpenIcon, ClockIcon, TrophyIcon, TrendingUpIcon, CalendarIcon, FireIcon } from '@heroicons/react/24/outline';
+import { BookOpenIcon, ClockIcon, TrophyIcon, CalendarIcon, FireIcon } from '@heroicons/react/24/outline';
 import { LearningStats, UserLearningProgress, CourseProgress } from '@/app/lib/learn-definitions';
 import { getLearningStats, getUserLearningProgress } from '@/app/lib/learn-data';
 
@@ -153,15 +153,17 @@ export default function LearningAnalyticsDashboard({
         setUserProgress({
           user_id: userId,
           course_progress: [],
-          total_lessons_completed: analytics.reduce((sum, d) => sum + d.lessons_completed, 0),
-          total_study_time_hours: Math.round(analytics.reduce((sum, d) => sum + d.study_time_minutes, 0) / 60),
-          current_streak: Math.max(...analytics.map(d => d.streak_days)),
+          overall_stats: {
+            total_courses_completed: Math.round(analytics.length * 0.1),
+            total_lessons_completed: analytics.reduce((sum, d) => sum + d.lessons_completed, 0),
+            total_study_time_hours: Math.round(analytics.reduce((sum, d) => sum + d.study_time_minutes, 0) / 60),
+            average_score: Math.round(analytics.reduce((sum, d) => sum + d.quiz_scores, 0) / analytics.length),
+            current_streak: Math.max(...analytics.map(d => d.streak_days)),
+            longest_streak: Math.max(...analytics.map(d => d.streak_days))
+          },
           achievements: [],
-          learning_preferences: {
-            preferred_difficulty: 'intermediate',
-            interests: ['programming', 'design'],
-            study_goals: 'career_advancement'
-          }
+          learning_streak: Math.max(...analytics.map(d => d.streak_days)),
+          last_study_date: new Date()
         });
         
         setStats({
@@ -169,8 +171,8 @@ export default function LearningAnalyticsDashboard({
           total_lessons_completed: analytics.reduce((sum, d) => sum + d.lessons_completed, 0),
           total_study_time_hours: Math.round(analytics.reduce((sum, d) => sum + d.study_time_minutes, 0) / 60),
           current_streak: Math.max(...analytics.map(d => d.streak_days)),
-          average_quiz_score: Math.round(analytics.reduce((sum, d) => sum + d.quiz_scores, 0) / analytics.length),
-          achievements_count: analytics.reduce((sum, d) => sum + d.achievements_earned, 0)
+          longest_streak: Math.max(...analytics.map(d => d.streak_days)),
+          average_score: Math.round(analytics.reduce((sum, d) => sum + d.quiz_scores, 0) / analytics.length)
         });
         
       } catch (error) {
@@ -356,7 +358,7 @@ export default function LearningAnalyticsDashboard({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">平均测验分数</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.average_quiz_score}%</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.average_score}%</p>
               </div>
               <div className="bg-purple-100 p-3 rounded-lg">
                 <TrophyIcon className="h-6 w-6 text-purple-600" />

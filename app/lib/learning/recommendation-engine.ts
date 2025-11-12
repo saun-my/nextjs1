@@ -329,7 +329,7 @@ export class LearningRecommendationEngine {
   }
 
   // 辅助方法
-  private async getUserProfile(userId: string): Promise<UserProfile> {
+  async getUserProfile(userId: string): Promise<UserProfile> {
     // 这里应该从数据库获取用户数据
     // 现在返回模拟数据
     return {

@@ -145,7 +145,7 @@ export function generateTableData(type: 'courses' | 'users' | 'revenue' | 'activ
       { key: 'user', label: '用户', type: 'text', sortable: true },
       { key: 'action', label: '操作', type: 'text', sortable: true },
       { key: 'course', label: '课程', type: 'text', sortable: true },
-      { key: 'duration', label: '时长', type: 'duration', sortable: true },
+      { key: 'duration', label: '时长', type: 'number', sortable: true },
       { key: 'status', label: '状态', type: 'text', sortable: false }
     ]
   };
@@ -256,14 +256,14 @@ export function generateSmartInsights(count: number = 5): SmartInsight[] {
       {
         label: '当前值',
         value: Math.floor(Math.random() * 1000) + 100,
-        change: (Math.random() * 40 - 20).toFixed(1),
+        change: Number((Math.random() * 40 - 20).toFixed(1)),
         trend: Math.random() > 0.5 ? 'up' : 'down',
         timestamp: new Date()
       },
       {
         label: '对比值',
         value: Math.floor(Math.random() * 800) + 200,
-        change: (Math.random() * 30 - 15).toFixed(1),
+        change: Number((Math.random() * 30 - 15).toFixed(1)),
         trend: Math.random() > 0.5 ? 'up' : 'down',
         timestamp: new Date(Date.now() - 86400000 * 7) // 一周前
       }

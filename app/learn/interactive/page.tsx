@@ -5,7 +5,6 @@ import { InteractiveCodeEditor } from '@/app/components/InteractiveCodeEditor';
 
 export default function InteractiveLearningPage() {
   const [selectedLanguage, setSelectedLanguage] = useState('javascript');
-  const [showPreview, setShowPreview] = useState(true);
 
   const languages = [
     { value: 'javascript', label: 'JavaScript', icon: '🟨' },
@@ -74,17 +73,7 @@ export default function InteractiveLearningPage() {
               </select>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={showPreview}
-                  onChange={(e) => setShowPreview(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm text-gray-700">显示预览</span>
-              </label>
-            </div>
+            <div className="flex items-center space-x-4"></div>
           </div>
         </div>
 
@@ -92,7 +81,6 @@ export default function InteractiveLearningPage() {
         <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
           <InteractiveCodeEditor 
             language={selectedLanguage}
-            showPreview={showPreview}
           />
         </div>
 

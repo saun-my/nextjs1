@@ -234,31 +234,4 @@ export interface SortingConfig {
 }
 
 // 导出所有类型
-export type {
-  DashboardWidget,
-  WidgetConfig,
-  WidgetFilter,
-  AggregationConfig,
-  DashboardLayout,
-  DashboardData,
-  SmartInsight,
-  DataPoint,
-  Recommendation,
-  DashboardConfig,
-  DataSourceConfig,
-  ConnectionConfig,
-  QueryConfig,
-  CacheConfig,
-  DashboardSettings,
-  UserPreferences,
-  NotificationSettings,
-  ChartData,
-  Dataset,
-  MetricData,
-  TableData,
-  TableHeader,
-  TableRow,
-  TableAction,
-  PaginationConfig,
-  SortingConfig
-};
+ 
