@@ -29,6 +29,8 @@ export function SmartInsightWidget({
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedSeverity, setSelectedSeverity] = useState<string>('all');
   const [showSettings, setShowSettings] = useState(false);
+  // 新增：优先级选择状态
+  const [selectedPriority, setSelectedPriority] = useState<string>('all');
 
   const categories = useMemo(() => {
     const cats = new Set(data.map((insight) => insight.category));
@@ -37,6 +39,11 @@ export function SmartInsightWidget({
 
   const severities = useMemo(() => {
     return ['critical', 'high', 'medium', 'low'];
+  }, []);
+
+  // 新增：优先级列表
+  const priorities = useMemo(() => {
+    return ['high', 'medium', 'low'];
   }, []);
 
   const filteredInsights = useMemo(() => {
@@ -95,6 +102,33 @@ export function SmartInsightWidget({
     }
   }, []);
 
+  // 新增：优先级样式
+  const getPriorityColor = useCallback((priority: string) => {
+    switch (priority) {
+      case 'high':
+        return 'border-red-200 bg-red-50';
+      case 'medium':
+        return 'border-yellow-200 bg-yellow-50';
+      case 'low':
+        return 'border-blue-200 bg-blue-50';
+      default:
+        return 'border-gray-200 bg-gray-50';
+    }
+  }, []);
+
+  const getPriorityBadgeColor = useCallback((priority: string) => {
+    switch (priority) {
+      case 'high':
+        return 'bg-red-100 text-red-800';
+      case 'medium':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'low':
+        return 'bg-blue-100 text-blue-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  }, []);
+
   const handleExport = useCallback((format: 'json' | 'csv') => {
     if (onExport) {
       onExport(format);
@@ -116,7 +150,7 @@ export function SmartInsightWidget({
         jsonLink.download = `${widget.id}-insights-${new Date().toISOString()}.json`;
         jsonLink.click();
         break;
-      
+
       case 'csv':
         const csvContent =
           'data:text/csv;charset=utf-8,' +
@@ -211,7 +245,7 @@ export function SmartInsightWidget({
               )}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <button
               onClick={onRefresh}
@@ -220,7 +254,7 @@ export function SmartInsightWidget({
             >
               <RefreshCw className="h-4 w-4" />
             </button>
-            
+
             <div className="relative">
               <button
                 onClick={() => setShowSettings(!showSettings)}
@@ -229,7 +263,7 @@ export function SmartInsightWidget({
               >
                 <Settings className="h-4 w-4" />
               </button>
-              
+
               {showSettings && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                   <div className="py-1">
@@ -287,22 +321,22 @@ export function SmartInsightWidget({
               ))}
             </select>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">优先级:</label>
-            <select
-              value={selectedPriority}
-              onChange={(e) => setSelectedPriority(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="all">全部</option>
-              {priorities.map(priority => (
-                <option key={priority} value={priority}>
-                  {priority === 'high' ? '高' : priority === 'medium' ? '中' : '低'}
-                </option>
-              ))}
-            </select>
-          </div>
+            {/* 修改为严重程度筛选 */}
+            <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700">严重程度:</label>
+                <select
+                    value={selectedSeverity}
+                    onChange={(e) => setSelectedSeverity(e.target.value)}
+                    className="px-3 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                    <option value="all">全部</option>
+                    {severities.map(severity => (
+                        <option key={severity} value={severity}>
+                            {severity === 'critical' ? '危急' : severity === 'high' ? '高' : severity === 'medium' ? '中' : '低'}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
       </div>
 
@@ -317,28 +351,21 @@ export function SmartInsightWidget({
           <div className="space-y-4">
             {filteredInsights.map((insight, index) => {
               const firstRec = insight.recommendations?.[0];
-              const impact = firstRec?.estimatedImpact || 'N/A';
-              const severityLabel =
-                insight.severity === 'critical'
-                  ? '极高'
-                  : insight.severity === 'high'
-                  ? '高'
-                  : insight.severity === 'medium'
-                  ? '中'
-                  : '低';
+              const impact = firstRec?.estimatedImpact || '—';
               return (
                 <div
                   key={index}
                   className={cn(
                     "rounded-lg border p-4",
-                    getPriorityColor(insight.priority)
+                    // 使用严重程度颜色而非优先级
+                    getSeverityColor(insight.severity)
                   )}
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-1">
                       {getInsightIcon(insight.type)}
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="text-sm font-semibold text-gray-900">
@@ -347,20 +374,21 @@ export function SmartInsightWidget({
                         <div className="flex items-center gap-2">
                           <span className={cn(
                             "px-2 py-1 rounded-full text-xs font-medium",
-                            getPriorityBadgeColor(insight.priority)
+                            // 使用严重程度徽章颜色
+                            getSeverityBadgeColor(insight.severity)
                           )}>
-                            {insight.priority === 'high' ? '高' : insight.priority === 'medium' ? '中' : '低'}
+                            {insight.severity === 'critical' ? '危急' : insight.severity === 'high' ? '高' : insight.severity === 'medium' ? '中' : '低'}
                           </span>
                           <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
                             {insight.category}
                           </span>
                         </div>
                       </div>
-                      
+
                       <p className="text-sm text-gray-700 mb-3">
                         {insight.description}
                       </p>
-                      
+
                       <div className="grid grid-cols-2 gap-4 mb-3">
                         <div>
                           <div className="text-xs text-gray-500 mb-1">置信度</div>
@@ -376,15 +404,15 @@ export function SmartInsightWidget({
                             </span>
                           </div>
                         </div>
-                        
+
                         <div>
                           <div className="text-xs text-gray-500 mb-1">影响程度</div>
                           <div className="text-sm font-medium text-gray-900">
-                            {insight.impact}
+                            {impact}
                           </div>
                         </div>
                       </div>
-                      
+
                       {insight.recommendation && (
                         <div className="bg-white rounded-lg p-3 border border-gray-200">
                           <div className="text-xs font-medium text-gray-700 mb-1">建议</div>
@@ -396,9 +424,10 @@ export function SmartInsightWidget({
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              );
+            })}
+          </div>
+        )};
       </div>
 
       {/* 统计信息 */}
