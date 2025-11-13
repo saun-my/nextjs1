@@ -176,3 +176,30 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [01:41:00.184] Server  LOG     {}
 [01:41:00.264] Server  LOG     {}
 [01:41:00.341] Server  LOG     {}
+[01:47:36.333] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:47:36.454] Browser WARN    Image with src "/hero-desktop.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[01:47:37.407] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:47:39.438] Browser ERROR   uncaughtError: Error: Objects are not valid as a React child (found: [object Date]). If you meant to render a collection of children, use an array instead.
+[01:48:38.510] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:52:02.263] Server  LOG      ✓ Compiled in 100ms
+[01:52:37.118] Server  LOG      ✓ Compiled in 75ms
+[01:55:46.538] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:56:25.541] Server  WARN    Error: Route "/funds/[code]" used `searchParams.name`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[01:56:25.675] Server  WARN    Error: Route "/funds/[code]" used `searchParams.name`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+[01:56:29.025] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:57:49.471] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:59:52.118] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:59:54.530] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:59:54.659] Server  LOG     {}
+[02:00:43.167] Server  LOG     {}
+[02:00:43.507] Server  LOG     {}
+[02:00:49.804] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:51.947] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:52.080] Server  LOG     {}
+[02:01:09.358] Server  LOG     {}
+[02:01:09.446] Server  LOG     {}
+[02:01:09.529] Server  LOG     {}
+[02:01:09.922] Server  LOG     {}
+[02:01:10.024] Server  LOG     {}
+[02:01:11.348] Server  LOG     {}

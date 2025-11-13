@@ -37,8 +37,9 @@ export default async function DashboardInvestmentsPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border">
-        <div className="px-6 py-4 border-b">
+        <div className="px-6 py-4 border-b flex items-center justify-between">
           <h2 className="text-lg font-semibold">我的投资记录</h2>
+          <a href="/investments" className="px-3 py-1.5 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">新增持有</a>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full">
@@ -55,7 +56,7 @@ export default async function DashboardInvestmentsPage() {
             <tbody>
               {records.map((r) => (
                 <tr key={r.id} className="border-t">
-                  <td className="px-6 py-3">{r.trade_date}</td>
+                  <td className="px-6 py-3">{typeof r.trade_date === 'string' ? r.trade_date.slice(0,10) : r.trade_date instanceof Date ? r.trade_date.toISOString().slice(0,10) : String(r.trade_date)}</td>
                   <td className="px-6 py-3">{r.fund_code}</td>
                   <td className="px-6 py-3">{r.amount}</td>
                   <td className="px-6 py-3">{r.price}</td>

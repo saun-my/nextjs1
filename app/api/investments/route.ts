@@ -1,6 +1,7 @@
  
 
 import { NextRequest } from 'next/server';
+import { randomUUID } from 'crypto';
 import postgres from 'postgres';
 
 
@@ -30,8 +31,8 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: 'missing fields' }, { status: 400 });
     }
     await sql`
-      INSERT INTO investments (user_id, fund_code, amount, price, trade_date, note)
-      VALUES (${user_id}, ${fund_code}, ${Number(amount)}, ${Number(price)}, ${new Date(trade_date)}, ${note ?? null})
+      INSERT INTO investments (id, user_id, fund_code, amount, price, trade_date, note)
+      VALUES (${randomUUID()}, ${user_id}, ${fund_code}, ${Number(amount)}, ${Number(price)}, ${new Date(trade_date)}, ${note ?? null})
     `;
     return Response.json({ ok: true });
   } catch (e) {
