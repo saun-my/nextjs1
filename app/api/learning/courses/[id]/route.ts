@@ -1,9 +1,9 @@
-'use server';
+ 
 
 import postgres from 'postgres';
 import { NextRequest } from 'next/server';
 
-const sql = postgres(process.env.POSTGRES_URL!, {
+const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
   ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
 });
 

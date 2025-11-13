@@ -1,15 +1,27 @@
 import { Suspense } from 'react';
+import postgres from 'postgres';
 import Quiz from '@/app/ui/learn/quiz';
 
 async function getLesson(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/lessons/${id}`, { cache: 'no-store' });
-  if (!res.ok) return null;
-  return res.json();
+  const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
+    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+  });
+  const rows = await sql`
+    SELECT id, course_id, title, objective, content, duration_min, order_index
+    FROM lessons WHERE id = ${id}
+  `;
+  return rows[0] || null;
 }
 
 async function getQuiz(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/quiz/by-lesson?lessonId=${encodeURIComponent(id)}`, { cache: 'no-store' });
-  return res.json();
+  const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
+    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+  });
+  const rows = await sql`
+    SELECT id, lesson_id, prompt, choices
+    FROM quiz_questions WHERE lesson_id = ${id}
+  `;
+  return rows as any[];
 }
 
 async function LessonContent({ id }: { id: string }) {

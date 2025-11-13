@@ -25,6 +25,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f40$heroicons$2b$react$40$2$2e$2$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$ArrowTrendingUpIcon$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowTrendingUpIcon$3e$__ = __turbopack_context__.i("[project]/nextjs1/node_modules/.pnpm/@heroicons+react@2.2.0_react@19.2.0/node_modules/@heroicons/react/24/outline/esm/ArrowTrendingUpIcon.js [app-client] (ecmascript) <export default as ArrowTrendingUpIcon>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f40$heroicons$2b$react$40$2$2e$2$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$UsersIcon$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UsersIcon$3e$__ = __turbopack_context__.i("[project]/nextjs1/node_modules/.pnpm/@heroicons+react@2.2.0_react@19.2.0/node_modules/@heroicons/react/24/outline/esm/UsersIcon.js [app-client] (ecmascript) <export default as UsersIcon>");
 ;
+;
 var _s = __turbopack_context__.k.signature();
 'use client';
 ;
@@ -158,7 +159,6 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
     const renderChart = ()=>{
         const commonProps = {
             data: chartData,
-            key: animationKey,
             margin: {
                 top: 5,
                 right: 30,
@@ -168,15 +168,22 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
         };
         switch(chartType){
             case 'line':
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$LineChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LineChart"], {
+                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createElement"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$LineChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LineChart"], {
                     ...commonProps,
+                    key: animationKey,
+                    __source: {
+                        fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
+                        lineNumber: 156,
+                        columnNumber: 11
+                    },
+                    __self: this,
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
                             strokeDasharray: "3 3",
                             stroke: "#f0f0f0"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 158,
+                            lineNumber: 157,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -185,7 +192,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 159,
+                            lineNumber: 158,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -193,23 +200,23 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 160,
+                            lineNumber: 159,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
                             content: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CustomTooltip, {}, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 161,
+                                lineNumber: 160,
                                 columnNumber: 31
                             }, void 0)
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 161,
+                            lineNumber: 160,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Legend$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Legend"], {}, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 162,
+                            lineNumber: 161,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Line$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Line"], {
@@ -230,25 +237,28 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             animationDuration: 1000
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 163,
+                            lineNumber: 162,
                             columnNumber: 13
                         }, this)
                     ]
-                }, void 0, true, {
-                    fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 157,
-                    columnNumber: 11
-                }, this);
+                });
             case 'bar':
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$BarChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BarChart"], {
+                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createElement"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$BarChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BarChart"], {
                     ...commonProps,
+                    key: animationKey,
+                    __source: {
+                        fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
+                        lineNumber: 176,
+                        columnNumber: 11
+                    },
+                    __self: this,
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
                             strokeDasharray: "3 3",
                             stroke: "#f0f0f0"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 178,
+                            lineNumber: 177,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -257,7 +267,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 179,
+                            lineNumber: 178,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -265,23 +275,23 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 180,
+                            lineNumber: 179,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
                             content: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CustomTooltip, {}, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 181,
+                                lineNumber: 180,
                                 columnNumber: 31
                             }, void 0)
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 181,
+                            lineNumber: 180,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Legend$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Legend"], {}, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 182,
+                            lineNumber: 181,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Bar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Bar"], {
@@ -296,18 +306,21 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             animationDuration: 1000
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 183,
+                            lineNumber: 182,
                             columnNumber: 13
                         }, this)
                     ]
-                }, void 0, true, {
-                    fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 177,
-                    columnNumber: 11
-                }, this);
+                });
             default:
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$AreaChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AreaChart"], {
+                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createElement"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$AreaChart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AreaChart"], {
                     ...commonProps,
+                    key: animationKey,
+                    __source: {
+                        fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
+                        lineNumber: 193,
+                        columnNumber: 11
+                    },
+                    __self: this,
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("defs", {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("linearGradient", {
@@ -323,7 +336,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                         stopOpacity: 0.3
                                     }, void 0, false, {
                                         fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                        lineNumber: 197,
+                                        lineNumber: 196,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -332,18 +345,18 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                         stopOpacity: 0
                                     }, void 0, false, {
                                         fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                        lineNumber: 198,
+                                        lineNumber: 197,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 196,
+                                lineNumber: 195,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 195,
+                            lineNumber: 194,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
@@ -351,7 +364,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             stroke: "#f0f0f0"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 201,
+                            lineNumber: 200,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -360,7 +373,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 202,
+                            lineNumber: 201,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -368,23 +381,23 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             fontSize: 12
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 203,
+                            lineNumber: 202,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tooltip"], {
                             content: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CustomTooltip, {}, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 204,
+                                lineNumber: 203,
                                 columnNumber: 31
                             }, void 0)
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 204,
+                            lineNumber: 203,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Legend$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Legend"], {}, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 205,
+                            lineNumber: 204,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$recharts$40$3$2e$4$2e$1_$40$types$2b$react$40$19$2e$2$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$2d$is$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_redux$40$5$2e$0$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Area$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Area"], {
@@ -397,15 +410,11 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             animationDuration: 1000
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 206,
+                            lineNumber: 205,
                             columnNumber: 13
                         }, this)
                     ]
-                }, void 0, true, {
-                    fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 194,
-                    columnNumber: 11
-                }, this);
+                });
         }
     };
     if (isLoading) {
@@ -420,37 +429,37 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                             className: "h-8 bg-gray-200 rounded w-1/4 mb-4"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 225,
+                            lineNumber: 224,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "h-64 bg-gray-200 rounded mb-4"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 226,
+                            lineNumber: 225,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "h-4 bg-gray-200 rounded w-1/3"
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 227,
+                            lineNumber: 226,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 224,
+                    lineNumber: 223,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                lineNumber: 223,
+                lineNumber: 222,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-            lineNumber: 222,
+            lineNumber: 221,
             columnNumber: 7
         }, this);
     }
@@ -470,7 +479,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                     children: title
                                 }, void 0, false, {
                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                    lineNumber: 240,
+                                    lineNumber: 239,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -489,12 +498,12 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                                     children: rangeOption
                                                 }, rangeOption, false, {
                                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                                    lineNumber: 245,
+                                                    lineNumber: 244,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                            lineNumber: 243,
+                                            lineNumber: 242,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -519,24 +528,24 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                                     children: icon
                                                 }, t, false, {
                                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                                    lineNumber: 262,
+                                                    lineNumber: 261,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                            lineNumber: 260,
+                                            lineNumber: 259,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                    lineNumber: 241,
+                                    lineNumber: 240,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 239,
+                            lineNumber: 238,
                             columnNumber: 11
                         }, this),
                         showMetrics && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -552,7 +561,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                                     className: `h-5 w-5 ${metric.change >= 0 ? 'text-green-500' : 'text-red-500'}`
                                                 }, void 0, false, {
                                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                                    lineNumber: 293,
+                                                    lineNumber: 292,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -564,13 +573,13 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                                    lineNumber: 294,
+                                                    lineNumber: 293,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                            lineNumber: 292,
+                                            lineNumber: 291,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -578,7 +587,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                             children: metric.value
                                         }, void 0, false, {
                                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                            lineNumber: 300,
+                                            lineNumber: 299,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -586,24 +595,24 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                             children: metric.title
                                         }, void 0, false, {
                                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 302,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, metric.title, true, {
                                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                    lineNumber: 283,
+                                    lineNumber: 282,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                            lineNumber: 281,
+                            lineNumber: 280,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 238,
+                    lineNumber: 237,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -614,12 +623,12 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                         children: renderChart()
                     }, void 0, false, {
                         fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                        lineNumber: 314,
+                        lineNumber: 313,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 313,
+                    lineNumber: 312,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -631,7 +640,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                 className: "h-4 w-4 mr-2"
                             }, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 322,
+                                lineNumber: 321,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -641,7 +650,7 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 323,
+                                lineNumber: 322,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -649,36 +658,36 @@ function EnhancedRevenueChart({ data = [], title = 'Revenue Analytics', type = '
                                 children: "•"
                             }, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 324,
+                                lineNumber: 323,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Data refresh every 5 minutes"
                             }, void 0, false, {
                                 fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                                lineNumber: 325,
+                                lineNumber: 324,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                        lineNumber: 321,
+                        lineNumber: 320,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-                    lineNumber: 320,
+                    lineNumber: 319,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-            lineNumber: 236,
+            lineNumber: 235,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/nextjs1/app/ui/dashboard/enhanced-revenue-chart.tsx",
-        lineNumber: 235,
+        lineNumber: 234,
         columnNumber: 5
     }, this);
 }

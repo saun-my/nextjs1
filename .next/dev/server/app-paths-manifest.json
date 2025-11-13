@@ -1,5 +1,19 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/learn/courses/page": "app/learn/courses/page.js",
-  "/learn/nav/page": "app/learn/nav/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/funds/list/route": "app/api/funds/list/route.js",
+  "/api/investments/route": "app/api/investments/route.js",
+  "/api/seed/route": "app/api/seed/route.js",
+  "/dashboard/analytics/page": "app/dashboard/analytics/page.js",
+  "/dashboard/investments/page": "app/dashboard/investments/page.js",
+  "/investments/page": "app/investments/page.js",
+  "/learn/ai-insights/page": "app/learn/ai-insights/page.js",
+  "/learn/collaborate/page": "app/learn/collaborate/page.js",
+  "/learn/nav/page": "app/learn/nav/page.js",
+  "/learn/page": "app/learn/page.js",
+  "/learn/practice/page": "app/learn/practice/page.js",
+  "/learn/progress/page": "app/learn/progress/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/seed/page": "app/seed/page.js"
 }

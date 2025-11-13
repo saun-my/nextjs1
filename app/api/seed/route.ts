@@ -1,23 +1,22 @@
 import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import { invoices, customers, revenue, users } from '../../lib/placeholder-data';
 import {
   fetchCourses,
   fetchLessonsByCourseId,
   fetchQuizByLessonId,
-} from '../lib/learn-data';
+} from '../../lib/learn-data';
 
-export const runtime = 'nodejs';
 
-const sql = postgres(process.env.POSTGRES_URL!, {
+
+const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
   ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
 });
 
 async function seedUsers() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
   await sql`
     CREATE TABLE IF NOT EXISTS users (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
@@ -39,7 +38,6 @@ async function seedUsers() {
     }),
   );
 
-  // 人员信息表（可选）
   await sql`
     CREATE TABLE IF NOT EXISTS profiles (
       user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
@@ -52,11 +50,10 @@ async function seedUsers() {
   return insertedUsers;
 }
 
-// 角色与权限相关
 async function seedRoles() {
   await sql`
     CREATE TABLE IF NOT EXISTS roles (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       name TEXT NOT NULL UNIQUE
     );
   `;
@@ -70,7 +67,7 @@ async function seedRoles() {
 async function seedPermissions() {
   await sql`
     CREATE TABLE IF NOT EXISTS permissions (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
       description TEXT
     );
@@ -99,7 +96,6 @@ async function seedRolePermissionMappings() {
     );
   `;
 
-  // 简化：通过子查询按名称映射
   const map = async (role: string, perm: string) =>
     sql`
       INSERT INTO role_permissions (role_id, permission_id)
@@ -110,14 +106,9 @@ async function seedRolePermissionMappings() {
       ON CONFLICT DO NOTHING
     `;
 
-  // user
   await map('user', 'view_courses');
-
-  // vip
   await map('vip', 'view_courses');
   await map('vip', 'access_vip_content');
-
-  // admin
   await map('admin', 'view_courses');
   await map('admin', 'access_vip_content');
   await map('admin', 'view_dashboard');
@@ -135,7 +126,6 @@ async function seedUserRoles() {
     );
   `;
 
-  // 默认将占位用户分配为普通 user 角色
   await sql`
     INSERT INTO user_roles (user_id, role_id)
     VALUES (
@@ -147,54 +137,44 @@ async function seedUserRoles() {
 }
 
 async function seedInvoices() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
   await sql`
     CREATE TABLE IF NOT EXISTS invoices (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       customer_id UUID NOT NULL,
       amount INT NOT NULL,
       status VARCHAR(255) NOT NULL,
       date DATE NOT NULL
     );
   `;
-
-  const insertedInvoices = await Promise.all(
-    invoices.map(
-      (invoice) => sql`
+  await Promise.all(
+    invoices.map((invoice) =>
+      sql`
         INSERT INTO invoices (customer_id, amount, status, date)
         VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
-
-  return insertedInvoices;
 }
 
 async function seedCustomers() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
   await sql`
     CREATE TABLE IF NOT EXISTS customers (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       image_url VARCHAR(255) NOT NULL
     );
   `;
-
-  const insertedCustomers = await Promise.all(
-    customers.map(
-      (customer) => sql`
+  await Promise.all(
+    customers.map((customer) =>
+      sql`
         INSERT INTO customers (id, name, email, image_url)
         VALUES (${customer.id}, ${customer.name}, ${customer.email}, ${customer.image_url})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
-
-  return insertedCustomers;
 }
 
 async function seedRevenue() {
@@ -204,25 +184,18 @@ async function seedRevenue() {
       revenue INT NOT NULL
     );
   `;
-
-  const insertedRevenue = await Promise.all(
-    revenue.map(
-      (rev) => sql`
+  await Promise.all(
+    revenue.map((rev) =>
+      sql`
         INSERT INTO revenue (month, revenue)
         VALUES (${rev.month}, ${rev.revenue})
         ON CONFLICT (month) DO NOTHING;
       `,
     ),
   );
-
-  return insertedRevenue;
 }
 
-// 学习业务相关数据表与示例数据
 async function seedLearningSchema() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
-  // 课程表
   await sql`
     CREATE TABLE IF NOT EXISTS courses (
       id TEXT PRIMARY KEY,
@@ -237,8 +210,6 @@ async function seedLearningSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
-
-  // 课时表
   await sql`
     CREATE TABLE IF NOT EXISTS lessons (
       id TEXT PRIMARY KEY,
@@ -251,8 +222,6 @@ async function seedLearningSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
-
-  // 测验题目表（选择题集合以 JSONB 存储）
   await sql`
     CREATE TABLE IF NOT EXISTS quiz_questions (
       id TEXT PRIMARY KEY,
@@ -262,8 +231,6 @@ async function seedLearningSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
-
-  // 用户学习档案
   await sql`
     CREATE TABLE IF NOT EXISTS user_learning_profiles (
       user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
@@ -275,8 +242,6 @@ async function seedLearningSchema() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
-
-  // 用户课程进度
   await sql`
     CREATE TABLE IF NOT EXISTS user_course_progress (
       user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -291,8 +256,6 @@ async function seedLearningSchema() {
       PRIMARY KEY (user_id, course_id)
     );
   `;
-
-  // 用户成就
   await sql`
     CREATE TABLE IF NOT EXISTS achievements (
       id TEXT PRIMARY KEY,
@@ -304,8 +267,6 @@ async function seedLearningSchema() {
       category TEXT
     );
   `;
-
-  // 学习活动日志
   await sql`
     CREATE TABLE IF NOT EXISTS learning_activities (
       id TEXT PRIMARY KEY,
@@ -318,10 +279,21 @@ async function seedLearningSchema() {
       time_spent INT
     );
   `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS investments (
+      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      fund_code TEXT NOT NULL,
+      amount NUMERIC NOT NULL,
+      price NUMERIC NOT NULL,
+      trade_date DATE NOT NULL,
+      note TEXT
+    );
+  `;
 }
 
 async function seedLearningData() {
-  // 课程与课时、测验
   const courses = await fetchCourses('');
   for (const c of courses) {
     await sql`
@@ -347,7 +319,6 @@ async function seedLearningData() {
     }
   }
 
-  // 用户学习档案（为占位用户初始化）
   const defaultUserId = users[0]?.id;
   if (defaultUserId) {
     await sql`
@@ -355,24 +326,38 @@ async function seedLearningData() {
       VALUES (${defaultUserId}, ${5}, ${sql.array(['programming', 'web development'])}, ${'interactive'}, ${10}, ${'flexible'})
       ON CONFLICT (user_id) DO NOTHING;
     `;
+    await sql`
+      INSERT INTO user_course_progress (user_id, course_id, completed_lessons, total_score, time_spent_minutes, completion_percentage, is_completed, certificate_earned)
+      VALUES (${defaultUserId}, ${'course-a1'}, ${sql.array(['lesson-a1-01'])}, ${85}, ${20}, ${12.5}, ${false}, ${false})
+      ON CONFLICT (user_id, course_id) DO NOTHING;
+    `;
+    await sql`
+      INSERT INTO achievements (id, user_id, title, description, icon_url, earned_date, category)
+      VALUES (${`init-achievement-${Date.now()}`}, ${defaultUserId}, ${'首次学习'}, ${'完成第一个课时'}, ${'/achievements/first-lesson.png'}, ${new Date()}, ${'completion'})
+      ON CONFLICT (id) DO NOTHING;
+    `;
+
+    await sql`
+      INSERT INTO investments (user_id, fund_code, amount, price, trade_date, note)
+      VALUES (${defaultUserId}, ${'110022'}, ${1000}, ${1.25}, ${new Date()}, ${'首次买入示例'})
+      ON CONFLICT DO NOTHING;
+    `;
   }
 }
 
 export async function GET() {
   try {
-    const result = await sql.begin((sql) => [
-      seedUsers(),
-      seedRoles(),
-      seedPermissions(),
-      seedRolePermissionMappings(),
-      seedUserRoles(),
-      seedCustomers(),
-      seedInvoices(),
-      seedRevenue(),
-      seedLearningSchema(),
-      seedLearningData(),
-    ]);
-
+    await sql`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`;
+    await seedUsers();
+    await seedRoles();
+    await seedPermissions();
+    await seedRolePermissionMappings();
+    await seedUserRoles();
+    await seedCustomers();
+    await seedInvoices();
+    await seedRevenue();
+    await seedLearningSchema();
+    await seedLearningData();
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {
     return Response.json({ error }, { status: 500 });

@@ -147,14 +147,13 @@ export default function EnhancedRevenueChart({
   const renderChart = () => {
     const commonProps = {
       data: chartData,
-      key: animationKey,
       margin: { top: 5, right: 30, left: 20, bottom: 5 }
     };
 
     switch (chartType) {
       case 'line':
         return (
-          <LineChart {...commonProps}>
+          <LineChart {...commonProps} key={animationKey}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
             <YAxis stroke="#6b7280" fontSize={12} />
@@ -174,7 +173,7 @@ export default function EnhancedRevenueChart({
       
       case 'bar':
         return (
-          <BarChart {...commonProps}>
+          <BarChart {...commonProps} key={animationKey}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
             <YAxis stroke="#6b7280" fontSize={12} />
@@ -191,7 +190,7 @@ export default function EnhancedRevenueChart({
       
       default: // area
         return (
-          <AreaChart {...commonProps}>
+          <AreaChart {...commonProps} key={animationKey}>
             <defs>
               <linearGradient id={`gradient-${selectedMetric}`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor={chartColors[selectedMetric]} stopOpacity={0.3}/>

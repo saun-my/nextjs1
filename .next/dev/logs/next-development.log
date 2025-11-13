@@ -1,8 +1,77 @@
-[00:00:00.883] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:00.964] Server  LOG      ✓ Ready in 788ms
-[00:00:05.039] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:06.579] Server  ERROR    ⨯ TypeError: Failed to parse URL from /api/learning/courses?q=
-[00:00:06.700] Browser ERROR   uncaughtError: TypeError: Failed to parse URL from /api/learning/courses?q=
-[00:00:14.980] Server  ERROR    ⨯ TypeError: Failed to parse URL from /api/learning/courses?q=
-[00:00:15.040] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:15.401] Browser ERROR   uncaughtError: TypeError: Failed to parse URL from /api/learning/courses?q=
+[00:00:00.637] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:00.714] Server  LOG      ✓ Ready in 553ms
+[00:00:02.340] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:02.567] Browser WARN    Image with src "/hero-desktop.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:00:04.095] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:15.777] Server  LOG     {}
+[00:00:15.858] Server  LOG     {}
+[00:00:15.942] Server  LOG     {}
+[00:00:16.019] Server  LOG     {}
+[00:00:16.341] Server  LOG     {}
+[00:00:16.419] Server  LOG     {}
+[00:00:16.984] Server  LOG     {}
+[00:00:17.614] Server  LOG     {}
+[00:00:18.863] Server  LOG     {}
+[00:00:19.108] Server  LOG     {}
+[00:00:19.380] Server  LOG     {}
+[00:00:20.120] Server  LOG     {}
+[00:00:30.485] Server  LOG     {}
+[00:00:30.552] Server  LOG     {}
+[00:00:30.627] Server  LOG     {}
+[00:00:30.688] Server  LOG     {}
+[00:00:31.086] Server  LOG     {}
+[00:00:31.408] Server  LOG     {}
+[00:00:31.662] Server  LOG     {}
+[00:00:32.101] Server  LOG     {}
+[00:00:32.838] Server  LOG     {}
+[00:00:32.957] Server  LOG     {}
+[00:00:33.116] Server  LOG     {}
+[00:00:33.635] Server  LOG     {}
+[00:00:33.908] Server  LOG     {}
+[00:00:34.065] Server  LOG     {}
+[00:00:34.287] Server  LOG     {}
+[00:00:34.295] Server  LOG     {}
+[00:00:34.682] Server  LOG     {}
+[00:00:34.706] Server  LOG     {}
+[00:00:35.040] Server  LOG     {}
+[00:00:43.832] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:58.481] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:01.275] Server  LOG     {}
+[00:01:01.338] Server  LOG     {}
+[00:01:01.501] Server  LOG     {}
+[00:01:01.584] Server  LOG     {}
+[00:01:01.879] Server  LOG     {}
+[00:01:01.948] Server  LOG     {}
+[00:01:02.139] Server  LOG     {}
+[00:01:02.509] Server  LOG     {}
+[00:01:03.999] Server  LOG     {}
+[00:01:04.568] Server  LOG     {}
+[00:01:04.915] Server  LOG     {}
+[00:05:22.640] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:22.765] Browser WARN    Image with src "/hero-desktop.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:05:24.767] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:53.362] Server  LOG      ✓ Compiled in 75ms
+[00:07:54.435] Server  LOG      ✓ Compiled in 2ms
+[00:08:26.764] Server  ERROR    ⨯ TypeError: fetch failed
+[00:08:26.880] Browser ERROR   uncaughtError: TypeError: fetch failed
+[00:09:06.465] Server  ERROR    ⨯ PostgresError: relation "investments" does not exist
+[00:09:06.547] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:06.921] Browser ERROR   uncaughtError: PostgresError: relation "investments" does not exist
+[00:09:27.762] Server  ERROR    ⨯ PostgresError: relation "investments" does not exist
+[00:09:27.834] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:27.946] Browser ERROR   uncaughtError: PostgresError: relation "investments" does not exist
+[00:12:34.907] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:38.721] Server  LOG     {}
+[00:16:38.807] Server  LOG     {}
+[00:16:38.874] Server  LOG     {}
+[00:16:38.951] Server  LOG     {}
+[00:16:39.218] Server  LOG     {}
+[00:16:39.280] Server  LOG     {}
+[00:16:39.871] Server  LOG     {}
+[00:16:40.534] Server  LOG     {}
+[00:16:41.813] Server  LOG     {}
+[00:16:42.041] Server  LOG     {}
+[00:16:42.354] Server  LOG     {}
+[00:16:43.033] Server  LOG     {}

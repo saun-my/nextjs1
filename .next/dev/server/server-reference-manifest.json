@@ -1,5 +1,28 @@
 {
-  "node": {},
+  "node": {
+    "0075e243e0c71d68d722790ac121a4125c65eda3a9": {
+      "workers": {
+        "app/dashboard/analytics/page": {
+          "moduleId": "[project]/nextjs1/.next-internal/server/app/dashboard/analytics/page/actions.js { ACTIONS_MODULE0 => \"[project]/nextjs1/app/ui/dashboard/sidenav.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        },
+        "app/dashboard/investments/page": {
+          "moduleId": "[project]/nextjs1/.next-internal/server/app/dashboard/investments/page/actions.js { ACTIONS_MODULE0 => \"[project]/nextjs1/app/ui/dashboard/sidenav.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        }
+      },
+      "layer": {
+        "app/dashboard/analytics/page": "rsc",
+        "app/dashboard/investments/page": "rsc"
+      },
+      "filename": "nextjs1/app/ui/dashboard/sidenav.tsx",
+      "exportedName": "$$RSC_SERVER_ACTION_0"
+    }
+  },
   "edge": {},
   "encryptionKey": "iZ4vGaVBbmx2+xLxb7Az8y3quMHsicK7yFwf45bBX58="
 }

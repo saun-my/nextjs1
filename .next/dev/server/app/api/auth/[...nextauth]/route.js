@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/auth/[...nextauth]/route.js")
+R.c("server/chunks/1446d_postgres_src_index_10d82624.js")
+R.c("server/chunks/67db0_next_21924809._.js")
+R.c("server/chunks/a6fdf_@auth_core_e1ffc54c._.js")
+R.c("server/chunks/9ddea_jose_dist_node_esm_aae5ae1a._.js")
+R.c("server/chunks/bff8f__pnpm_292a02fc._.js")
+R.c("server/chunks/[root-of-the-server]__832d2208._.js")
+R.c("server/chunks/nextjs1__next-internal_server_app_api_auth_[___nextauth]_route_actions_0c349628.js")
+R.m("[project]/nextjs1/node_modules/.pnpm/next@16.0.2_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/nextjs1/app/api/auth/[...nextauth]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/nextjs1/node_modules/.pnpm/next@16.0.2_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/nextjs1/app/api/auth/[...nextauth]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

@@ -10,6 +10,7 @@ import {
   CogIcon,
   AcademicCapIcon,
   UserGroupIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -25,6 +26,7 @@ const links = [
   { name: '协作学习', href: '/learn/collaborate', icon: UserGroupIcon },
   { name: 'AI洞察', href: '/learn/ai-insights', icon: ChartPieIcon },
   { name: '仪表板', href: '/dashboard/analytics', icon: ChartBarIcon },
+  { name: '投资记录', href: '/dashboard/investments', icon: CurrencyDollarIcon },
 ];
 
 export default function LearnNavLinks() {

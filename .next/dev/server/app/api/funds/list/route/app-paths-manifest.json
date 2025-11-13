@@ -1,0 +1,3 @@
+{
+  "/api/funds/list/route": "app/api/funds/list/route.js"
+}

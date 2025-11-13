@@ -1,9 +1,9 @@
-'use server';
+ 
 
 import postgres from 'postgres';
 import { NextRequest } from 'next/server';
 
-const sql = postgres(process.env.POSTGRES_URL!, {
+const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
   ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
 });
 
@@ -135,4 +135,3 @@ function buildReasons(c: DbCourse, preferredTopics: string[], prog?: DbProgress 
   if (prog && !prog.is_completed) reasons.push('继续你已开始但未完成的课程类别');
   return reasons.length ? reasons : ['综合匹配度较高'];
 }
-

@@ -1,13 +1,25 @@
 import { Suspense } from 'react';
+import postgres from 'postgres';
 async function getCourse(id: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/courses/${id}`, { cache: 'no-store' });
-  if (!res.ok) return null;
-  return res.json();
+  const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
+    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+  });
+  const rows = await sql`
+    SELECT id, title, level, description, cover_url, lessons_count, estimated_hours, difficulty_score
+    FROM courses WHERE id = ${id}
+  `;
+  return rows[0] || null;
 }
 
 async function getLessons(courseId: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/lessons/by-course?courseId=${encodeURIComponent(courseId)}`, { cache: 'no-store' });
-  return res.json();
+  const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
+    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+  });
+  const rows = await sql`
+    SELECT id, course_id, title, objective, content, duration_min, order_index
+    FROM lessons WHERE course_id = ${courseId} ORDER BY order_index ASC
+  `;
+  return rows as any[];
 }
 
 async function LessonList({ courseId }: { courseId: string }) {

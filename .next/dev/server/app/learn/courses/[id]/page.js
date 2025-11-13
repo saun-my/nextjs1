@@ -1,6 +1,6 @@
 var R=require("../../../../chunks/ssr/[turbopack]_runtime.js")("server/app/learn/courses/[id]/page.js")
-R.c("server/chunks/ssr/67db0_next_dist_75565817._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__51c0f7e6._.js")
+R.c("server/chunks/ssr/bff8f__pnpm_932f33cf._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__11b6a6de._.js")
 R.c("server/chunks/ssr/67db0_next_dist_778c26be._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__7f148858._.js")
 R.c("server/chunks/ssr/67db0_next_dist_client_components_builtin_global-error_16d7423a.js")

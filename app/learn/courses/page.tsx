@@ -1,9 +1,19 @@
 import { Suspense } from 'react';
+import postgres from 'postgres';
 import Search from '@/app/ui/search';
 
 async function CourseGrid({ query }: { query: string }) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/courses?q=${encodeURIComponent(query)}`, { cache: 'no-store' });
-  const courses = (await res.json()) as any[];
+  const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
+    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+  });
+  const rows = await sql`
+    SELECT id, title, level, description, cover_url, lessons_count
+    FROM courses
+  `;
+  const q = (query || '').toLowerCase();
+  const courses = rows.filter((c: any) =>
+    !q || c.title.toLowerCase().includes(q) || c.level.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
+  );
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {courses.map((c: any) => (
