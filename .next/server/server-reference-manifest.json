@@ -1,5 +1,42 @@
 {
-  "node": {},
+  "node": {
+    "003d2a7af8fa074d45bb643727c4309efc61be108f": {
+      "workers": {
+        "app/dashboard/(overview)/page": {
+          "moduleId": 447,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        },
+        "app/dashboard/analytics/page": {
+          "moduleId": 84360,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        },
+        "app/dashboard/customers/page": {
+          "moduleId": 37732,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        },
+        "app/dashboard/invoices/page": {
+          "moduleId": 98239,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "nextjs1/app/ui/dashboard/sidenav.tsx"
+        }
+      },
+      "layer": {
+        "app/dashboard/(overview)/page": "rsc",
+        "app/dashboard/analytics/page": "rsc",
+        "app/dashboard/customers/page": "rsc",
+        "app/dashboard/invoices/page": "rsc"
+      },
+      "filename": "nextjs1/app/ui/dashboard/sidenav.tsx",
+      "exportedName": "$$RSC_SERVER_ACTION_0"
+    }
+  },
   "edge": {},
   "encryptionKey": "wHfrZ5xMiIGfYgSGPAVYOT7ZMxXhoNOKVFBeFhqgZ+A="
 }

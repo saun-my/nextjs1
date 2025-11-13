@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/saunmy/Desktop/nextjs1/nextjs1/app/learn/loading.tsx"],"sourcesContent":["export default function Loading() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"h-8 w-48 rounded bg-gray-100\" />\n      <div className=\"grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3\">\n        {[...Array(6)].map((_, i) => (\n          <div key={i} className=\"rounded-xl bg-gray-50 p-4\">\n            <div className=\"h-32 rounded bg-white\" />\n            <div className=\"mt-3 h-4 w-3/4 rounded bg-gray-100\" />\n            <div className=\"mt-2 h-4 w-1/2 rounded bg-gray-100\" />\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,wXAAC;QAAI,WAAU;;0BACb,wXAAC;gBAAI,WAAU;;;;;;0BACf,wXAAC;gBAAI,WAAU;0BACZ;uBAAI,MAAM;iBAAG,CAAC,GAAG,CAAC,CAAC,GAAG,kBACrB,wXAAC;wBAAY,WAAU;;0CACrB,wXAAC;gCAAI,WAAU;;;;;;0CACf,wXAAC;gCAAI,WAAU;;;;;;0CACf,wXAAC;gCAAI,WAAU;;;;;;;uBAHP;;;;;;;;;;;;;;;;AASpB","debugId":null}}]
+}

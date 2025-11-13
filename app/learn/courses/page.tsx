@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
-import { fetchCourses } from '@/app/lib/learn-data';
 import Search from '@/app/ui/search';
 
 async function CourseGrid({ query }: { query: string }) {
-  const courses = await fetchCourses(query);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/courses?q=${encodeURIComponent(query)}`, { cache: 'no-store' });
+  const courses = (await res.json()) as any[];
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {courses.map((c) => (
+      {courses.map((c: any) => (
         <a
           key={c.id}
           href={`/learn/courses/${c.id}`}

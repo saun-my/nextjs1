@@ -1,6 +1,11 @@
 import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import {
+  fetchCourses,
+  fetchLessonsByCourseId,
+  fetchQuizByLessonId,
+} from '../lib/learn-data';
 
 export const runtime = 'nodejs';
 
@@ -213,6 +218,146 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+// 学习业务相关数据表与示例数据
+async function seedLearningSchema() {
+  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+  // 课程表
+  await sql`
+    CREATE TABLE IF NOT EXISTS courses (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      level TEXT NOT NULL,
+      description TEXT NOT NULL,
+      cover_url TEXT,
+      lessons_count INT NOT NULL,
+      estimated_hours INT NOT NULL,
+      difficulty_score INT NOT NULL,
+      tags TEXT[] DEFAULT '{}',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+
+  // 课时表
+  await sql`
+    CREATE TABLE IF NOT EXISTS lessons (
+      id TEXT PRIMARY KEY,
+      course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      objective TEXT,
+      content TEXT,
+      duration_min INT NOT NULL,
+      order_index INT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+
+  // 测验题目表（选择题集合以 JSONB 存储）
+  await sql`
+    CREATE TABLE IF NOT EXISTS quiz_questions (
+      id TEXT PRIMARY KEY,
+      lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+      prompt TEXT NOT NULL,
+      choices JSONB NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+
+  // 用户学习档案
+  await sql`
+    CREATE TABLE IF NOT EXISTS user_learning_profiles (
+      user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      preferred_difficulty INT,
+      preferred_topics TEXT[] DEFAULT '{}',
+      learning_style TEXT,
+      weekly_goal_hours INT,
+      study_time_preference TEXT,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `;
+
+  // 用户课程进度
+  await sql`
+    CREATE TABLE IF NOT EXISTS user_course_progress (
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+      completed_lessons TEXT[] DEFAULT '{}',
+      total_score INT DEFAULT 0,
+      time_spent_minutes INT DEFAULT 0,
+      completion_percentage REAL DEFAULT 0,
+      last_accessed TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      is_completed BOOLEAN NOT NULL DEFAULT FALSE,
+      certificate_earned BOOLEAN NOT NULL DEFAULT FALSE,
+      PRIMARY KEY (user_id, course_id)
+    );
+  `;
+
+  // 用户成就
+  await sql`
+    CREATE TABLE IF NOT EXISTS achievements (
+      id TEXT PRIMARY KEY,
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      description TEXT,
+      icon_url TEXT,
+      earned_date TIMESTAMPTZ NOT NULL,
+      category TEXT
+    );
+  `;
+
+  // 学习活动日志
+  await sql`
+    CREATE TABLE IF NOT EXISTS learning_activities (
+      id TEXT PRIMARY KEY,
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+      lesson_id TEXT,
+      activity_type TEXT NOT NULL,
+      timestamp TIMESTAMPTZ NOT NULL,
+      score INT,
+      time_spent INT
+    );
+  `;
+}
+
+async function seedLearningData() {
+  // 课程与课时、测验
+  const courses = await fetchCourses('');
+  for (const c of courses) {
+    await sql`
+      INSERT INTO courses (id, title, level, description, cover_url, lessons_count, estimated_hours, difficulty_score, tags)
+      VALUES (${c.id}, ${c.title}, ${c.level}, ${c.description}, ${c.cover_url}, ${c.lessons_count}, ${c.estimated_hours}, ${c.difficulty_score}, ${sql.array(c.tags)})
+      ON CONFLICT (id) DO NOTHING;
+    `;
+    const lessons = await fetchLessonsByCourseId(c.id);
+    for (const l of lessons) {
+      await sql`
+        INSERT INTO lessons (id, course_id, title, objective, content, duration_min, order_index)
+        VALUES (${l.id}, ${l.course_id}, ${l.title}, ${l.objective}, ${l.content}, ${l.duration_min}, ${l.order_index})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+      const quiz = await fetchQuizByLessonId(l.id);
+      for (const q of quiz) {
+        await sql`
+          INSERT INTO quiz_questions (id, lesson_id, prompt, choices)
+          VALUES (${q.id}, ${q.lesson_id}, ${q.prompt}, ${sql.json(q.choices)})
+          ON CONFLICT (id) DO NOTHING;
+        `;
+      }
+    }
+  }
+
+  // 用户学习档案（为占位用户初始化）
+  const defaultUserId = users[0]?.id;
+  if (defaultUserId) {
+    await sql`
+      INSERT INTO user_learning_profiles (user_id, preferred_difficulty, preferred_topics, learning_style, weekly_goal_hours, study_time_preference)
+      VALUES (${defaultUserId}, ${5}, ${sql.array(['programming', 'web development'])}, ${'interactive'}, ${10}, ${'flexible'})
+      ON CONFLICT (user_id) DO NOTHING;
+    `;
+  }
+}
+
 export async function GET() {
   try {
     const result = await sql.begin((sql) => [
@@ -224,6 +369,8 @@ export async function GET() {
       seedCustomers(),
       seedInvoices(),
       seedRevenue(),
+      seedLearningSchema(),
+      seedLearningData(),
     ]);
 
     return Response.json({ message: 'Database seeded successfully' });

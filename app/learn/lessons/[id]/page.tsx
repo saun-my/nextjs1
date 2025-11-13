@@ -1,9 +1,19 @@
-import { fetchLessonById, fetchQuizByLessonId } from '@/app/lib/learn-data';
 import { Suspense } from 'react';
 import Quiz from '@/app/ui/learn/quiz';
 
+async function getLesson(id: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/lessons/${id}`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+async function getQuiz(id: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/quiz/by-lesson?lessonId=${encodeURIComponent(id)}`, { cache: 'no-store' });
+  return res.json();
+}
+
 async function LessonContent({ id }: { id: string }) {
-  const lesson = await fetchLessonById(id);
+  const lesson = await getLesson(id);
   if (!lesson) return <div className="text-red-600">Lesson not found.</div>;
   return (
     <div className="space-y-2 rounded-xl bg-gray-50 p-4">
@@ -16,7 +26,7 @@ async function LessonContent({ id }: { id: string }) {
 }
 
 async function LessonQuiz({ id }: { id: string }) {
-  const qs = await fetchQuizByLessonId(id);
+  const qs = await getQuiz(id);
   return <Quiz questions={qs} />;
 }
 

@@ -190,15 +190,7 @@ export default function LearnNavGridEnhanced({ userId }: LearnNavGridEnhancedPro
       badge: (stats?.total_study_time_hours ?? 0) > 0 ? `${Math.round(stats!.total_study_time_hours!)}h total` : undefined,
       badgeColor: 'bg-green-100 text-green-800',
     },
-    {
-      title: 'Smart Path',
-      desc: 'AI-powered personalized learning recommendations.',
-      href: '/learn/smart-path',
-      icon: ChartPieIcon,
-      color: 'bg-purple-50',
-      badge: 'AI推荐',
-      badgeColor: 'bg-purple-100 text-purple-800',
-    },
+    
     {
       title: 'Search Courses',
       desc: 'Find specific topics or skills to learn.',
@@ -214,7 +206,7 @@ export default function LearnNavGridEnhanced({ userId }: LearnNavGridEnhancedPro
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {cards.map(({ title, desc, href, icon: Icon, color, progress, badge, badgeColor }) => (
         <Link
-          key={title}
+          key={href}
           href={href}
           className="rounded-xl border bg-white p-4 shadow-sm transition-all hover:shadow-md hover:scale-105 group"
         >

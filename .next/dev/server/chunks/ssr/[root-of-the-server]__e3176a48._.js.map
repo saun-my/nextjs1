@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///Users/saunmy/Desktop/nextjs1/nextjs1/app/learn/practice/page.tsx"],"sourcesContent":["export const dynamic = 'force-dynamic';\n\nexport default async function Page() {\n  return (\n    <div className=\"space-y-4\">\n      <h2 className=\"text-xl font-semibold\">练习</h2>\n      <p className=\"text-gray-700\">这里是快速练习入口，后续可接入测验与打分。</p>\n      <div className=\"rounded-xl bg-gray-50 p-4\">\n        <div className=\"h-24 rounded bg-white\" />\n        <p className=\"mt-2 text-sm text-gray-600\">占位内容</p>\n      </div>\n    </div>\n  );\n}"],"names":[],"mappings":";;;;;;;;AAAO,MAAM,UAAU;AAER,eAAe;IAC5B,qBACE,wXAAC;QAAI,WAAU;;0BACb,wXAAC;gBAAG,WAAU;0BAAwB;;;;;;0BACtC,wXAAC;gBAAE,WAAU;0BAAgB;;;;;;0BAC7B,wXAAC;gBAAI,WAAU;;kCACb,wXAAC;wBAAI,WAAU;;;;;;kCACf,wXAAC;wBAAE,WAAU;kCAA6B;;;;;;;;;;;;;;;;;;AAIlD","debugId":null}}]
+}

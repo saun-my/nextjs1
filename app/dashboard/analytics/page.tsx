@@ -3,11 +3,17 @@
 import { useState } from 'react';
 import { ModularDashboardBuilder } from '@/app/components/ModularDashboardBuilder';
 import { AIInsightEngine } from '@/app/components/AIInsightEngine';
-import { useDemoDashboard } from '@/app/hooks/useSmartDashboard';
+import { useSmartDashboard } from '@/app/hooks/useSmartDashboard';
 
 export default function AnalyticsDashboard() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'insights'>('dashboard');
-  const { layout, data, loading, error, refresh, updateLayout } = useDemoDashboard();
+  const { layout, data, loading, error, refresh, updateLayout } = useSmartDashboard({
+    layoutId: 'demo',
+    autoRefresh: activeTab === 'dashboard',
+    refreshInterval: 30000,
+    enableInsights: true,
+    enableRealtime: activeTab === 'dashboard'
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

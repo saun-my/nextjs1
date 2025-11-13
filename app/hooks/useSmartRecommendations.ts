@@ -2,13 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { 
-  LearningRecommendationEngine, 
-  generateSampleCourses, 
-  generateSampleUserProgress 
-} from '@/app/lib/learning/recommendation-engine';
-import { 
-  RecommendationRequest, 
-  RecommendationResponse, 
   RecommendationResult,
   UserProfile 
 } from '@/app/lib/learning/types';
@@ -36,7 +29,7 @@ export function useSmartRecommendations({
   userId,
   context = 'home',
   limit = 6,
-  filters = {},
+  filters,
   autoRefresh = false,
   refreshInterval = 300000
 }: UseSmartRecommendationsProps): UseSmartRecommendationsReturn {
@@ -46,33 +39,32 @@ export function useSmartRecommendations({
   const [hasMore, setHasMore] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [engine] = useState(() => {
-    const courses = generateSampleCourses();
-    const userProgress = generateSampleUserProgress();
-    return new LearningRecommendationEngine(courses, userProgress);
-  });
+  const [engine] = useState<null>(null);
 
   const fetchRecommendations = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const request: RecommendationRequest = {
-        userId,
-        context,
-        limit,
-        includeExplanations: true,
-        filters
-      };
-
-      const response: RecommendationResponse = await engine.generateRecommendations(request);
-      
-      setRecommendations(response.recommendations);
-      setHasMore(response.hasMore);
-      setTotalCount(response.totalCount);
-      
-      const profile = await engine.getUserProfile(userId);
-      setUserProfile(profile);
+      const res = await fetch(`/api/learning/recommendations?userId=${encodeURIComponent(userId)}&limit=${limit}&context=${context}`);
+      if (!res.ok) throw new Error('获取推荐失败');
+      const data = await res.json();
+      setRecommendations(data.recommendations as RecommendationResult[]);
+      setHasMore(data.hasMore as boolean);
+      setTotalCount(data.totalCount as number);
+      setUserProfile({
+        id: userId,
+        name: '学习者',
+        email: 'learner@example.com',
+        skillLevel: 'intermediate',
+        interests: [],
+        learningGoals: [],
+        completedCourses: [],
+        currentCourses: [],
+        learningStyle: 'interactive',
+        timeAvailability: 'moderate',
+        preferredDifficulty: 'adaptive'
+      });
       
     } catch (err) {
       setError(err instanceof Error ? err.message : '获取推荐失败');
@@ -80,7 +72,7 @@ export function useSmartRecommendations({
     } finally {
       setLoading(false);
     }
-  }, [userId, context, limit, filters, engine]);
+  }, [userId, context, limit]);
 
   const refresh = useCallback(async () => {
     await fetchRecommendations();

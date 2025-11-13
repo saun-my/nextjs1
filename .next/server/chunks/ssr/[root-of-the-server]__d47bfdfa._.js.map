@@ -1,0 +1,1 @@
+{"version":3,"sources":["turbopack:///[project]/nextjs1/app/dashboard/customers/page.tsx"],"sourcesContent":["export default function Page() {\n  return <p>Customers Page</p>;\n}\n"],"names":[],"mappings":"0WAAe,SAAS,IACtB,MAAO,CAAA,EAAA,EAAA,GAAA,EAAC,IAAA,UAAE,kBACZ"}

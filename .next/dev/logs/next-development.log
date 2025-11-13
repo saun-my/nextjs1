@@ -1,0 +1,8 @@
+[00:00:00.883] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:00.964] Server  LOG      ✓ Ready in 788ms
+[00:00:05.039] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:06.579] Server  ERROR    ⨯ TypeError: Failed to parse URL from /api/learning/courses?q=
+[00:00:06.700] Browser ERROR   uncaughtError: TypeError: Failed to parse URL from /api/learning/courses?q=
+[00:00:14.980] Server  ERROR    ⨯ TypeError: Failed to parse URL from /api/learning/courses?q=
+[00:00:15.040] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:15.401] Browser ERROR   uncaughtError: TypeError: Failed to parse URL from /api/learning/courses?q=

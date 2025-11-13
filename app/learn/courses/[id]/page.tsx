@@ -1,11 +1,20 @@
-import { fetchCourseById, fetchLessonsByCourseId } from '@/app/lib/learn-data';
 import { Suspense } from 'react';
+async function getCourse(id: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/courses/${id}`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+async function getLessons(courseId: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/learning/lessons/by-course?courseId=${encodeURIComponent(courseId)}`, { cache: 'no-store' });
+  return res.json();
+}
 
 async function LessonList({ courseId }: { courseId: string }) {
-  const lessons = await fetchLessonsByCourseId(courseId);
+  const lessons = (await getLessons(courseId)) as any[];
   return (
     <ul className="space-y-2">
-      {lessons.map((l) => (
+      {lessons.map((l: any) => (
         <li key={l.id} className="rounded border p-3 hover:bg-gray-50">
           <a href={`/learn/lessons/${l.id}`}>
             <div className="font-medium">{l.title}</div>
@@ -20,7 +29,7 @@ async function LessonList({ courseId }: { courseId: string }) {
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
-  const course = await fetchCourseById(id);
+  const course = await getCourse(id);
   if (!course) {
     return <div className="text-red-600">Course not found.</div>;
   }
