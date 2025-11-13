@@ -628,6 +628,14 @@ select {
   top: 100%;
 }
 
+.left-2 {
+  left: .5rem;
+}
+
+.top-2\.5 {
+  top: .625rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -1866,6 +1874,24 @@ select {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-green-50 {
+  --tw-gradient-from: #f0fdf4 var(--tw-gradient-from-position);
+  --tw-gradient-to: #f0fdf400 var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-indigo-50 {
+  --tw-gradient-from: #eef2ff var(--tw-gradient-from-position);
+  --tw-gradient-to: #eef2ff00 var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-slate-50 {
+  --tw-gradient-from: #f8fafc var(--tw-gradient-from-position);
+  --tw-gradient-to: #f8fafc00 var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .to-indigo-50 {
   --tw-gradient-to: #eef2ff var(--tw-gradient-to-position);
 }
@@ -1880,6 +1906,10 @@ select {
 
 .to-purple-600 {
   --tw-gradient-to: #9333ea var(--tw-gradient-to-position);
+}
+
+.to-white {
+  --tw-gradient-to: #fff var(--tw-gradient-to-position);
 }
 
 .bg-cover {
@@ -2008,6 +2038,11 @@ select {
   padding-bottom: 9px;
 }
 
+.px-2\.5 {
+  padding-left: .625rem;
+  padding-right: .625rem;
+}
+
 .pb-2 {
   padding-bottom: .5rem;
 }
@@ -2070,6 +2105,14 @@ select {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pl-7 {
+  padding-left: 1.75rem;
+}
+
+.pb-5 {
+  padding-bottom: 1.25rem;
 }
 
 .text-left {
@@ -2698,6 +2741,11 @@ input[type="number"]::-webkit-outer-spin-button {
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
 }
 
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -3077,10 +3125,6 @@ input[type="number"]::-webkit-outer-spin-button {
 @media (min-width: 1280px) {
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .xl\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

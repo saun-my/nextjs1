@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import postgres from 'postgres';
 import { invoices, customers, revenue, users } from '../../lib/placeholder-data';
+import { randomUUID } from 'crypto';
 import {
   fetchCourses,
   fetchLessonsByCourseId,
@@ -9,14 +10,16 @@ import {
 
 
 
-const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
-  ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined,
+const url = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL!;
+const sql = postgres(url, {
+  ssl: 'require',
+  prepare: false,
 });
 
 async function seedUsers() {
   await sql`
     CREATE TABLE IF NOT EXISTS users (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
@@ -53,21 +56,23 @@ async function seedUsers() {
 async function seedRoles() {
   await sql`
     CREATE TABLE IF NOT EXISTS roles (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name TEXT NOT NULL UNIQUE
     );
   `;
-  await Promise.all([
-    sql`INSERT INTO roles (name) VALUES ('user') ON CONFLICT (name) DO NOTHING`,
-    sql`INSERT INTO roles (name) VALUES ('vip') ON CONFLICT (name) DO NOTHING`,
-    sql`INSERT INTO roles (name) VALUES ('admin') ON CONFLICT (name) DO NOTHING`,
-  ]);
+  const roleNames = ['user','vip','admin'];
+  await Promise.all(
+    roleNames.map((name) => sql`
+      INSERT INTO roles (id, name) VALUES (${randomUUID()}, ${name})
+      ON CONFLICT (name) DO NOTHING
+    `)
+  );
 }
 
 async function seedPermissions() {
   await sql`
     CREATE TABLE IF NOT EXISTS permissions (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
       description TEXT
     );
@@ -82,7 +87,7 @@ async function seedPermissions() {
   ];
   await Promise.all(
     inserts.map(([name, desc]) =>
-      sql`INSERT INTO permissions (name, description) VALUES (${name}, ${desc}) ON CONFLICT (name) DO NOTHING`,
+      sql`INSERT INTO permissions (id, name, description) VALUES (${randomUUID()}, ${name}, ${desc}) ON CONFLICT (name) DO NOTHING`,
     ),
   );
 }
@@ -139,7 +144,7 @@ async function seedUserRoles() {
 async function seedInvoices() {
   await sql`
     CREATE TABLE IF NOT EXISTS invoices (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       customer_id UUID NOT NULL,
       amount INT NOT NULL,
       status VARCHAR(255) NOT NULL,
@@ -149,8 +154,8 @@ async function seedInvoices() {
   await Promise.all(
     invoices.map((invoice) =>
       sql`
-        INSERT INTO invoices (customer_id, amount, status, date)
-        VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
+        INSERT INTO invoices (id, customer_id, amount, status, date)
+        VALUES (${randomUUID()}, ${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -160,7 +165,7 @@ async function seedInvoices() {
 async function seedCustomers() {
   await sql`
     CREATE TABLE IF NOT EXISTS customers (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       image_url VARCHAR(255) NOT NULL
@@ -282,7 +287,7 @@ async function seedLearningSchema() {
 
   await sql`
     CREATE TABLE IF NOT EXISTS investments (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       fund_code TEXT NOT NULL,
       amount NUMERIC NOT NULL,
@@ -338,8 +343,8 @@ async function seedLearningData() {
     `;
 
     await sql`
-      INSERT INTO investments (user_id, fund_code, amount, price, trade_date, note)
-      VALUES (${defaultUserId}, ${'110022'}, ${1000}, ${1.25}, ${new Date()}, ${'首次买入示例'})
+      INSERT INTO investments (id, user_id, fund_code, amount, price, trade_date, note)
+      VALUES (${randomUUID()}, ${defaultUserId}, ${'110022'}, ${1000}, ${1.25}, ${new Date()}, ${'首次买入示例'})
       ON CONFLICT DO NOTHING;
     `;
   }
@@ -347,7 +352,6 @@ async function seedLearningData() {
 
 export async function GET() {
   try {
-    await sql`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`;
     await seedUsers();
     await seedRoles();
     await seedPermissions();
@@ -360,6 +364,6 @@ export async function GET() {
     await seedLearningData();
     return Response.json({ message: 'Database seeded successfully' });
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 }

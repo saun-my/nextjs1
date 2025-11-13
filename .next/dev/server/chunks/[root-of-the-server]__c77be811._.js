@@ -785,18 +785,22 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$bcryptjs$40$3$2e$0$2e$3$2f$node_modules$2f$bcryptjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/nextjs1/node_modules/.pnpm/bcryptjs@3.0.3/node_modules/bcryptjs/index.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$postgres$40$3$2e$4$2e$7$2f$node_modules$2f$postgres$2f$src$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/nextjs1/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/src/index.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$lib$2f$placeholder$2d$data$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/nextjs1/app/lib/placeholder-data.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/crypto [external] (crypto, cjs)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$lib$2f$learn$2d$data$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/nextjs1/app/lib/learn-data.ts [app-route] (ecmascript)");
 ;
 ;
 ;
 ;
-const sql = (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$postgres$40$3$2e$4$2e$7$2f$node_modules$2f$postgres$2f$src$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING, {
-    ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined
+;
+const url = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL;
+const sql = (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$postgres$40$3$2e$4$2e$7$2f$node_modules$2f$postgres$2f$src$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(url, {
+    ssl: 'require',
+    prepare: false
 });
 async function seedUsers() {
     await sql`
     CREATE TABLE IF NOT EXISTS users (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL,
@@ -827,20 +831,24 @@ async function seedUsers() {
 async function seedRoles() {
     await sql`
     CREATE TABLE IF NOT EXISTS roles (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name TEXT NOT NULL UNIQUE
     );
   `;
-    await Promise.all([
-        sql`INSERT INTO roles (name) VALUES ('user') ON CONFLICT (name) DO NOTHING`,
-        sql`INSERT INTO roles (name) VALUES ('vip') ON CONFLICT (name) DO NOTHING`,
-        sql`INSERT INTO roles (name) VALUES ('admin') ON CONFLICT (name) DO NOTHING`
-    ]);
+    const roleNames = [
+        'user',
+        'vip',
+        'admin'
+    ];
+    await Promise.all(roleNames.map((name)=>sql`
+      INSERT INTO roles (id, name) VALUES (${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomUUID"])()}, ${name})
+      ON CONFLICT (name) DO NOTHING
+    `));
 }
 async function seedPermissions() {
     await sql`
     CREATE TABLE IF NOT EXISTS permissions (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
       description TEXT
     );
@@ -871,7 +879,7 @@ async function seedPermissions() {
             '管理用户与权限'
         ]
     ];
-    await Promise.all(inserts.map(([name, desc])=>sql`INSERT INTO permissions (name, description) VALUES (${name}, ${desc}) ON CONFLICT (name) DO NOTHING`));
+    await Promise.all(inserts.map(([name, desc])=>sql`INSERT INTO permissions (id, name, description) VALUES (${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomUUID"])()}, ${name}, ${desc}) ON CONFLICT (name) DO NOTHING`));
 }
 async function seedRolePermissionMappings() {
     await sql`
@@ -919,7 +927,7 @@ async function seedUserRoles() {
 async function seedInvoices() {
     await sql`
     CREATE TABLE IF NOT EXISTS invoices (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       customer_id UUID NOT NULL,
       amount INT NOT NULL,
       status VARCHAR(255) NOT NULL,
@@ -927,15 +935,15 @@ async function seedInvoices() {
     );
   `;
     await Promise.all(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$lib$2f$placeholder$2d$data$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["invoices"].map((invoice)=>sql`
-        INSERT INTO invoices (customer_id, amount, status, date)
-        VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
+        INSERT INTO invoices (id, customer_id, amount, status, date)
+        VALUES (${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomUUID"])()}, ${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
         ON CONFLICT (id) DO NOTHING;
       `));
 }
 async function seedCustomers() {
     await sql`
     CREATE TABLE IF NOT EXISTS customers (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       image_url VARCHAR(255) NOT NULL
@@ -1046,7 +1054,7 @@ async function seedLearningSchema() {
   `;
     await sql`
     CREATE TABLE IF NOT EXISTS investments (
-      id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+      id UUID PRIMARY KEY,
       user_id UUID REFERENCES users(id) ON DELETE CASCADE,
       fund_code TEXT NOT NULL,
       amount NUMERIC NOT NULL,
@@ -1104,15 +1112,14 @@ async function seedLearningData() {
       ON CONFLICT (id) DO NOTHING;
     `;
         await sql`
-      INSERT INTO investments (user_id, fund_code, amount, price, trade_date, note)
-      VALUES (${defaultUserId}, ${'110022'}, ${1000}, ${1.25}, ${new Date()}, ${'首次买入示例'})
+      INSERT INTO investments (id, user_id, fund_code, amount, price, trade_date, note)
+      VALUES (${(0, __TURBOPACK__imported__module__$5b$externals$5d2f$crypto__$5b$external$5d$__$28$crypto$2c$__cjs$29$__["randomUUID"])()}, ${defaultUserId}, ${'110022'}, ${1000}, ${1.25}, ${new Date()}, ${'首次买入示例'})
       ON CONFLICT DO NOTHING;
     `;
     }
 }
 async function GET() {
     try {
-        await sql`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`;
         await seedUsers();
         await seedRoles();
         await seedPermissions();
@@ -1128,7 +1135,7 @@ async function GET() {
         });
     } catch (error) {
         return Response.json({
-            error
+            error: error.message
         }, {
             status: 500
         });

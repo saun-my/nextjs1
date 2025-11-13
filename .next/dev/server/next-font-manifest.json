@@ -5,7 +5,17 @@
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
+    "[project]/nextjs1/app/dashboard/(overview)/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
     "[project]/nextjs1/app/dashboard/analytics/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/dashboard/customers/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
@@ -15,17 +25,22 @@
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
-    "[project]/nextjs1/app/investments/page": [
+    "[project]/nextjs1/app/dashboard/invoices/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/funds/[code]/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/funds/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
     "[project]/nextjs1/app/learn/ai-insights/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
-    "[project]/nextjs1/app/learn/collaborate/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
@@ -40,17 +55,7 @@
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
-    "[project]/nextjs1/app/learn/practice/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
-    "[project]/nextjs1/app/learn/progress/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
-    "[project]/nextjs1/app/login/page": [
+    "[project]/nextjs1/app/learn/smart-path/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"

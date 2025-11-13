@@ -1,4 +1,6 @@
 import postgres from 'postgres';
+import FundLiveTable from '@/app/ui/dashboard/FundLiveTable';
+import FundSearchPanel from '@/app/ui/dashboard/FundSearchPanel';
 
 async function fetchInvestments() {
   const sql = postgres(process.env.POSTGRES_URL || process.env.POSTGRES_URL_NON_POOLING!, {
@@ -29,6 +31,10 @@ export default async function DashboardInvestmentsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Investments</h1>
+
+      <div className="bg-white rounded-lg shadow-sm border">
+        <FundSearchPanel />
+      </div>
 
       <div className="bg-white rounded-lg shadow-sm border">
         <div className="px-6 py-4 border-b">
@@ -68,38 +74,7 @@ export default async function DashboardInvestmentsPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border">
-        <div className="px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">今日热门基金</h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">代码</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">名称</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">日涨跌</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">净值</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">更新时间</th>
-              </tr>
-            </thead>
-            <tbody>
-              {funds.map((f) => (
-                <tr key={f.code} className="border-t">
-                  <td className="px-6 py-3">{f.code}</td>
-                  <td className="px-6 py-3">{f.name}</td>
-                  <td className={`px-6 py-3 ${Number(f.dayGrowth) >= 0 ? 'text-green-600' : 'text-red-600'}`}>{f.dayGrowth}%</td>
-                  <td className="px-6 py-3">{f.net ?? '-'}</td>
-                  <td className="px-6 py-3 text-xs text-gray-500">{f.lastUpdate ?? '-'}</td>
-                </tr>
-              ))}
-              {funds.length === 0 && (
-                <tr>
-                  <td className="px-6 py-8 text-center text-gray-500" colSpan={5}>暂无数据</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <FundLiveTable />
       </div>
     </div>
   );
