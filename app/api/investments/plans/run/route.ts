@@ -23,6 +23,18 @@ async function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS investments (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      fund_code TEXT NOT NULL,
+      amount NUMERIC NOT NULL,
+      price NUMERIC NOT NULL,
+      trade_date DATE NOT NULL,
+      note TEXT
+    );
+  `;
+  await sql`ALTER TABLE investments ADD COLUMN IF NOT EXISTS action TEXT NOT NULL DEFAULT 'buy'`;
 }
 
 function fmtDate(d: Date) {
@@ -67,8 +79,8 @@ export async function GET() {
         continue;
       }
       await sql`
-        INSERT INTO investments (id, user_id, fund_code, amount, price, trade_date, note)
-        VALUES (${randomUUID()}, ${p.user_id}, ${p.fund_code}, ${Number(p.amount)}, ${Number(price)}, ${new Date()}, ${'定投自动执行'})
+        INSERT INTO investments (id, user_id, fund_code, amount, price, trade_date, note, action)
+        VALUES (${randomUUID()}, ${p.user_id}, ${p.fund_code}, ${Number(p.amount)}, ${Number(price)}, ${new Date()}, ${'定投自动执行'}, ${'buy'})
       `;
       let nextRun: Date;
       if (p.frequency === 'weekly') {
@@ -86,4 +98,3 @@ export async function GET() {
 
   return Response.json({ ok: true, results });
 }
-

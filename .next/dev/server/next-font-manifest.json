@@ -5,17 +5,17 @@
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
-    "[project]/nextjs1/app/dashboard/(overview)/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
     "[project]/nextjs1/app/dashboard/analytics/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
     "[project]/nextjs1/app/dashboard/customers/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
+      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
+      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
+    ],
+    "[project]/nextjs1/app/dashboard/investments/analytics/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
@@ -35,17 +35,7 @@
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
-    "[project]/nextjs1/app/funds/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
     "[project]/nextjs1/app/investments/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
-    "[project]/nextjs1/app/learn/ai-insights/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
@@ -56,11 +46,6 @@
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
     ],
     "[project]/nextjs1/app/learn/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
-      "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
-      "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"
-    ],
-    "[project]/nextjs1/app/learn/smart-path/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2",
       "static/media/568219ae74a4794d-s.p.ae51889f.woff2",
       "static/media/f179d0d12a27c502-s.p.2481f41b.woff2"

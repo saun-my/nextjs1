@@ -109,6 +109,17 @@ async function ensureSchema() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `;
+    await sql`
+    CREATE TABLE IF NOT EXISTS investments (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      fund_code TEXT NOT NULL,
+      amount NUMERIC NOT NULL,
+      price NUMERIC NOT NULL,
+      trade_date DATE NOT NULL,
+      note TEXT
+    );
+  `;
 }
 function fmtDate(d) {
     return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())).toISOString().slice(0, 10);

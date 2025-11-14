@@ -1063,6 +1063,7 @@ async function seedLearningSchema() {
       note TEXT
     );
   `;
+    await sql`ALTER TABLE investments ADD COLUMN IF NOT EXISTS action TEXT NOT NULL DEFAULT 'buy'`;
 }
 async function seedLearningData() {
     const courses = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$lib$2f$learn$2d$data$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchCourses"])('');

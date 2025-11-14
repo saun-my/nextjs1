@@ -296,6 +296,7 @@ async function seedLearningSchema() {
       note TEXT
     );
   `;
+  await sql`ALTER TABLE investments ADD COLUMN IF NOT EXISTS action TEXT NOT NULL DEFAULT 'buy'`;
 }
 
 async function seedLearningData() {

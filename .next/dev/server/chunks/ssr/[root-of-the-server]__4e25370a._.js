@@ -147,7 +147,7 @@ async function fetchInvestments() {
         ssl: process.env.POSTGRES_SSL === 'require' ? 'require' : undefined
     });
     try {
-        const rows = await sql`SELECT id, user_id, fund_code, amount, price, trade_date, note FROM investments ORDER BY trade_date DESC LIMIT 100`;
+        const rows = await sql`SELECT id, user_id, fund_code, amount, price, trade_date, note, action FROM investments ORDER BY trade_date ASC, id ASC LIMIT 100`;
         return rows;
     } catch (e) {
         return [];
@@ -166,11 +166,106 @@ async function fetchFunds() {
         return [];
     }
 }
+async function fetchFundDetail(code) {
+    try {
+        const origin = process.env.NEXT_PUBLIC_BASE_URL ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT ?? '3000'}`);
+        const res = await fetch(`${origin}/api/funds/${encodeURIComponent(code)}`, {
+            cache: 'no-store'
+        });
+        if (res.ok) {
+            const data = await res.json();
+            const info = data?.data?.[0] ?? null;
+            if (info) return {
+                code,
+                name: info.name ?? '基金',
+                nav: info.netWorth ?? null
+            };
+        }
+    } catch  {}
+    try {
+        const url = `http://fund.eastmoney.com/pingzhongdata/${code}.js`;
+        const res = await fetch(url, {
+            cache: 'no-store'
+        });
+        if (!res.ok) return null;
+        const js = await res.text();
+        const nameMatch = js.match(/var\s+fS_name\s*=\s*"([^"]+)"/);
+        const trendMatch = js.match(/var\s+Data_netWorthTrend\s*=\s*(\[[\s\S]*?\]);/);
+        let nav = null;
+        if (trendMatch) {
+            try {
+                const arr = JSON.parse(trendMatch[1]);
+                if (Array.isArray(arr) && arr.length) {
+                    const l = arr[arr.length - 1];
+                    nav = typeof l?.y === 'number' ? l.y : null;
+                }
+            } catch  {}
+        }
+        return {
+            code,
+            name: nameMatch ? nameMatch[1] : '基金',
+            nav
+        };
+    } catch  {
+        return null;
+    }
+}
 async function DashboardInvestmentsPage() {
     const [records, funds] = await Promise.all([
         fetchInvestments(),
         fetchFunds()
     ]);
+    const byCode = new Map();
+    for (const r of records){
+        const price = Number(r.price || 0);
+        const amt = Number(r.amount || 0);
+        if (!price || !amt) continue;
+        const shares = amt / price;
+        const cur = byCode.get(r.fund_code) || {
+            shares: 0,
+            cost: 0,
+            realized: 0
+        };
+        if ((r.action ?? 'buy') === 'sell') {
+            const avgCost = cur.shares ? cur.cost / cur.shares : 0;
+            const sellShares = shares;
+            const reduceCost = avgCost * sellShares;
+            cur.shares = Math.max(0, cur.shares - sellShares);
+            cur.cost = Math.max(0, cur.cost - reduceCost);
+            cur.realized += amt - reduceCost;
+        } else {
+            cur.shares += shares;
+            cur.cost += amt;
+        }
+        byCode.set(r.fund_code, cur);
+    }
+    const codes = Array.from(byCode.keys());
+    const details = await Promise.all(codes.map((c)=>fetchFundDetail(c)));
+    const rows = codes.map((code, i)=>{
+        const pos = byCode.get(code);
+        const info = details[i];
+        const nav = Number(info?.nav || 0);
+        const mv = nav ? pos.shares * nav : 0;
+        const pnl = mv - pos.cost;
+        const pnlPct = pos.cost ? pnl / pos.cost * 100 : 0;
+        const avgCost = pos.shares ? pos.cost / pos.shares : 0;
+        return {
+            code,
+            name: info?.name ?? '基金',
+            shares: pos.shares,
+            avgCost,
+            nav,
+            marketValue: mv,
+            cost: pos.cost,
+            pnl,
+            pnlPct,
+            realized: pos.realized
+        };
+    }).sort((a, b)=>b.marketValue - a.marketValue);
+    const totalCost = rows.reduce((s, r)=>s + r.cost, 0);
+    const totalMV = rows.reduce((s, r)=>s + r.marketValue, 0);
+    const totalPNL = totalMV - totalCost;
+    const totalRealized = rows.reduce((s, r)=>s + r.realized, 0);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
@@ -179,19 +274,314 @@ async function DashboardInvestmentsPage() {
                 children: "Investments"
             }, void 0, false, {
                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                lineNumber: 33,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "bg-white rounded-lg shadow-sm border",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$ui$2f$dashboard$2f$FundSearchPanel$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                    lineNumber: 36,
+                    lineNumber: 105,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                lineNumber: 35,
+                lineNumber: 104,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-white rounded-lg shadow-sm border",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "px-6 py-4 border-b flex items-center justify-between",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "text-lg font-semibold",
+                                children: "持仓概览"
+                            }, void 0, false, {
+                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                lineNumber: 110,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-sm text-gray-600",
+                                children: [
+                                    "市值 ",
+                                    totalMV.toLocaleString(undefined, {
+                                        maximumFractionDigits: 2
+                                    }),
+                                    " · 成本 ",
+                                    totalCost.toLocaleString(undefined, {
+                                        maximumFractionDigits: 2
+                                    }),
+                                    " · 未实现盈亏 ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: totalPNL >= 0 ? 'text-green-700' : 'text-red-600',
+                                        children: totalPNL.toLocaleString(undefined, {
+                                            maximumFractionDigits: 2
+                                        })
+                                    }, void 0, false, {
+                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                        lineNumber: 111,
+                                        columnNumber: 192
+                                    }, this),
+                                    " · 已实现盈亏 ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: totalRealized >= 0 ? 'text-green-700' : 'text-red-600',
+                                        children: totalRealized.toLocaleString(undefined, {
+                                            maximumFractionDigits: 2
+                                        })
+                                    }, void 0, false, {
+                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                        lineNumber: 111,
+                                        columnNumber: 332
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                lineNumber: 111,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                href: "/dashboard/investments/analytics",
+                                className: "ml-4 px-3 py-1.5 text-sm rounded bg-indigo-600 text-white hover:bg-indigo-700",
+                                children: "投资分析"
+                            }, void 0, false, {
+                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                lineNumber: 112,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                        lineNumber: 109,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "overflow-x-auto",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                            className: "min-w-full",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                    className: "bg-gray-50",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "基金"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 118,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "持仓份额"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 119,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "均价"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 120,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "现价"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 121,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "市值"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 122,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "盈亏"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 123,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "盈亏%"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 124,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-6 py-3 text-left text-xs font-medium text-gray-500",
+                                                children: "已实现盈亏"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 125,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                        lineNumber: 117,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                    lineNumber: 116,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                    children: [
+                                        rows.map((r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                                className: "border-t hover:bg-gray-50",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: "px-6 py-3",
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                            className: "text-blue-600 hover:underline",
+                                                            href: `/funds/${r.code}`,
+                                                            children: [
+                                                                r.code,
+                                                                " · ",
+                                                                r.name
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                            lineNumber: 131,
+                                                            columnNumber: 45
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 131,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: "px-6 py-3",
+                                                        children: r.shares.toLocaleString(undefined, {
+                                                            maximumFractionDigits: 2
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 132,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: "px-6 py-3",
+                                                        children: r.avgCost.toFixed(4)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 133,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: "px-6 py-3",
+                                                        children: r.nav ? r.nav.toFixed(4) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "text-xs text-gray-500",
+                                                            children: "暂无"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                            lineNumber: 134,
+                                                            columnNumber: 73
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 134,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: "px-6 py-3",
+                                                        children: r.marketValue.toLocaleString(undefined, {
+                                                            maximumFractionDigits: 2
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 135,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: `px-6 py-3 ${r.pnl >= 0 ? 'text-green-700' : 'text-red-600'}`,
+                                                        children: r.pnl.toLocaleString(undefined, {
+                                                            maximumFractionDigits: 2
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 136,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: `px-6 py-3 ${r.pnl >= 0 ? 'text-green-700' : 'text-red-600'}`,
+                                                        children: [
+                                                            r.pnlPct.toFixed(2),
+                                                            "%"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 137,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                        className: `px-6 py-3 ${r.realized >= 0 ? 'text-green-700' : 'text-red-600'}`,
+                                                        children: r.realized.toLocaleString(undefined, {
+                                                            maximumFractionDigits: 2
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                        lineNumber: 138,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, r.code, true, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 130,
+                                                columnNumber: 17
+                                            }, this)),
+                                        rows.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                className: "px-6 py-8 text-center text-gray-500",
+                                                colSpan: 7,
+                                                children: "暂无持仓"
+                                            }, void 0, false, {
+                                                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                                lineNumber: 143,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                            lineNumber: 142,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                                    lineNumber: 128,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                            lineNumber: 115,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                        lineNumber: 114,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
+                lineNumber: 108,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -205,7 +595,7 @@ async function DashboardInvestmentsPage() {
                                 children: "我的投资记录"
                             }, void 0, false, {
                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                lineNumber: 41,
+                                lineNumber: 153,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -214,13 +604,13 @@ async function DashboardInvestmentsPage() {
                                 children: "新增持有"
                             }, void 0, false, {
                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                lineNumber: 42,
+                                lineNumber: 154,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                        lineNumber: 40,
+                        lineNumber: 152,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -237,7 +627,7 @@ async function DashboardInvestmentsPage() {
                                                 children: "日期"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 48,
+                                                lineNumber: 160,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -245,7 +635,7 @@ async function DashboardInvestmentsPage() {
                                                 children: "基金代码"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 49,
+                                                lineNumber: 161,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -253,7 +643,7 @@ async function DashboardInvestmentsPage() {
                                                 children: "金额/份额"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 50,
+                                                lineNumber: 162,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -261,7 +651,7 @@ async function DashboardInvestmentsPage() {
                                                 children: "价格"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 51,
+                                                lineNumber: 163,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -269,7 +659,7 @@ async function DashboardInvestmentsPage() {
                                                 children: "用户ID"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 52,
+                                                lineNumber: 164,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -277,18 +667,18 @@ async function DashboardInvestmentsPage() {
                                                 children: "备注"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 53,
+                                                lineNumber: 165,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                        lineNumber: 47,
+                                        lineNumber: 159,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                    lineNumber: 46,
+                                    lineNumber: 158,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -301,7 +691,7 @@ async function DashboardInvestmentsPage() {
                                                         children: typeof r.trade_date === 'string' ? r.trade_date.slice(0, 10) : r.trade_date instanceof Date ? r.trade_date.toISOString().slice(0, 10) : String(r.trade_date)
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 59,
+                                                        lineNumber: 171,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -309,7 +699,7 @@ async function DashboardInvestmentsPage() {
                                                         children: r.fund_code
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 60,
+                                                        lineNumber: 172,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -317,7 +707,7 @@ async function DashboardInvestmentsPage() {
                                                         children: r.amount
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 61,
+                                                        lineNumber: 173,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -325,7 +715,7 @@ async function DashboardInvestmentsPage() {
                                                         children: r.price
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 62,
+                                                        lineNumber: 174,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -333,7 +723,7 @@ async function DashboardInvestmentsPage() {
                                                         children: r.user_id
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 63,
+                                                        lineNumber: 175,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -341,13 +731,13 @@ async function DashboardInvestmentsPage() {
                                                         children: r.note ?? ''
                                                     }, void 0, false, {
                                                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                        lineNumber: 64,
+                                                        lineNumber: 176,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, r.id, true, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 58,
+                                                lineNumber: 170,
                                                 columnNumber: 17
                                             }, this)),
                                         records.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -357,53 +747,53 @@ async function DashboardInvestmentsPage() {
                                                 children: "暂无记录"
                                             }, void 0, false, {
                                                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                                lineNumber: 69,
+                                                lineNumber: 181,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                            lineNumber: 68,
+                                            lineNumber: 180,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                                    lineNumber: 56,
+                                    lineNumber: 168,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                            lineNumber: 45,
+                            lineNumber: 157,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                        lineNumber: 44,
+                        lineNumber: 156,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                lineNumber: 39,
+                lineNumber: 151,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "bg-white rounded-lg shadow-sm border",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$2_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$nextjs1$2f$app$2f$ui$2f$dashboard$2f$FundLiveTable$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                    lineNumber: 78,
+                    lineNumber: 190,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-                lineNumber: 77,
+                lineNumber: 189,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/nextjs1/app/dashboard/investments/page.tsx",
-        lineNumber: 32,
+        lineNumber: 101,
         columnNumber: 5
     }, this);
 }
